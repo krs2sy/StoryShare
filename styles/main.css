@@ -1,0 +1,256 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/**************************************/
+
+body {
+
+  /* background-image: url("filename.gif") */
+  background-color: rgb(220, 240, 255);
+
+}
+
+.container, .grid {
+  margin: 0 auto;
+  width: 960px;
+}
+
+.container {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.grid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.col {
+  display: inline-block;
+  vertical-align: top;
+  width: 33%;
+  padding-left: 15px;
+}
+
+.row {
+  min-width: 960px;
+}
+
+.row {
+  padding: 66px 0 44px 0;
+}
+
+h1, h2, h3, h4 {
+  color: #000000;
+}
+
+h3.content {
+  color: #003333;
+}
+
+h1, h3, h4, h5, p {
+  margin-bottom: 22px;
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 44px;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 44px;
+}
+
+h3 {
+  font-size: 21px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  color: #a9b2b9;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+a {
+  color: #648880;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a9b2b9;
+}
+
+p a {
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.primary-header a, .primary-footer a {
+  color: #ffffff;
+}
+
+.primary-header a:hover, .primary-footer a:hover {
+  color: #648880;
+}
+
+.logo {
+  float: left;
+  font-size: 48px;
+  font-weight: 100;
+  letter-spacing: .5px;
+  line-height: 44px;
+  padding: 40px 0 22px 0;
+  text-transform: uppercase;
+}
+
+.tagline {
+  margin: 66px 0 22px 0;
+  text-align: right;
+}
+
+.primary-nav {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.primary-footer {
+  color: #648880;
+  font-size: 14px;
+  padding-bottom: 44px;
+  padding-top: 44px;
+}
+
+.copyright {
+  float: left;
+  color: #ccffcc;
+}
+
+.nav {
+  text-align: right;
+
+}
+
+.nav li {
+  display: inline-block;
+  margin: 0 10px;
+  vertical-align: top;
+
+}
+
+.navbar {
+  background-color: #4455ff;
+  color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-brand{
+  color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-brand:hover{
+  color: #ddeeff;
+}
+
+.home {
+  color: #fff;
+  line-height: 44px;
+  padding: 22px 80px 66px 80px;
+  text-align: center;
+}
+
+.home h2 {
+  font-size: 36px;
+}
+
+.home p {
+  font-size: 24px;
+  font-weight: 100;
+}
+
+.highlight a:hover h3 {
+  color: #a9b2b9;
+}
+
+.highlight img {
+  border-radius: 5px;
+  display: block;
+  margin-bottom: 22px;
+  max-width: 100%;
+  border: solid;
+  padding: 20px 30px 20px 30px;
+}
+
+.profile {
+  width: 33%;
+}
+
+.profile_stories {
+  width: 66%;
+}
+
+.group {
+  display: block;
+  margin-bottom: 22px;
+  max-width: 100%;
+  background-color: #ffffff;
+  padding: 20px 30px 20px 30px;
+}
+
+profile_header {
+  margin-bottom: 22px;
+  max-width: 100%;
+  padding: 20px 30px 20px 30px;
+}
