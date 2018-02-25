@@ -137,6 +137,17 @@ p a {
   border-bottom: 1px solid #dfe2e5;
 }
 
+input[type=text] {
+  width: 100%;
+}
+
+textarea {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .primary-header a, .primary-footer a {
   color: #ffffff;
 }
@@ -249,8 +260,19 @@ p a {
   padding: 20px 30px 20px 30px;
 }
 
-profile_header {
+.profile_header {
   margin-bottom: 22px;
-  max-width: 100%;
+  padding: 20px 30px 20px 30px;
+}
+
+.profile_icon {
+  max-width: 50%;
+  float-right;
+  padding: 0px 30px 20px 50px;
+
+}
+
+.new_post {
+  margin-bottom: 22px;
   padding: 20px 30px 20px 30px;
 }

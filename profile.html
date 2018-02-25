@@ -22,25 +22,55 @@
 
     <script src="navbar.js"></script>
 
- <h1>My Profile</h1>
     <!-- highlight / showcase -->
     <section class="row">
       <div class="grid">
 
         <section class="profile col">
 
-          <h3>Marissa</h3>
+          <h2>Marissa</h2>
             <section class = "profile_header">
-                <p>Joined: 12/17/2018</p>
-                <p>Experience: Hobbyist</p>
-                <input type="button" value="Follow" onclick="" />
+                <div class = "col">
+                    <p>Joined: 12/17/2018</p>
+                    <p>Experience: Hobbyist</p>
+                    <input type="button" id="follow" value="Follow"  onclick="follow()" />
+                </div>
+                <div class = "col profile_icon">
+                    <img src="./images/MarissaPhoto.jpg" alt="Avatar" height="100px" width="100px">
+                    edit
+                </div>
             </section>
+
+
+            <script>
+               //The follow button will not show up on your profile but it will test for other users' profiles
+               function follow() {
+               var list = document.getElementById('followers_list');
+               var username = "Marissa";
+                  if (document.getElementById("follow").value == "Follow") {
+                      document.getElementById("follow").value = "Unfollow";
+                      //code from https://stackoverflow.com/questions/17773938/add-a-list-item-through-javascript
+                      var entry = document.createElement('li');
+                      entry.appendChild(document.createTextNode(username));
+                      list.appendChild(entry);
+                  }
+                  else {
+                      document.getElementById("follow").value = "Follow";
+                      //code from https://stackoverflow.com/questions/44937553/remove-last-item-of-a-list-using-javascript
+                      listItems = list.getElementsByTagName("li");
+                      var entry = listItems[listItems.length - 1];
+                      entry.parentNode.removeChild(entry);
+                  }
+               }
+
+              </script>
+
             <section class = "bio group">
-                <p>Biography:</p>
+                <h4>Biography:</h4>
                 <p>I am a computer science person who is more of a hobbyist</p>
             </section>
             <section class = "followers group">
-                <p>I Follow:</p>
+                <h4>I Follow:</h4>
                 <ul>
                     <li>Katie</li>
                     <li>Chris6</li>
@@ -48,9 +78,9 @@
 
             </section>
 
-            <section class = "followers group">
-                <p>My Followers:</p>
-                <ul>
+            <section class = "followers group" >
+                <h4>My Followers:</h4>
+                <ul id = "followers_list">
                     <li>SeaLove</li>
                 </ul>
 
@@ -58,16 +88,18 @@
         </section>
         <section class="col profile_stories">
              <section class = "new_story">
-                <p>New Story</p>
-                <form action="profile.html">
-                    <label>Title: </label>
-                    <input type="text" id="title" autofocus required onblur="checkTitle()" />
-                    <div id="title-msg" class="feedback"></div>
-                    <br/>
-                    <input type="button" value="Create" onclick="addStory()" />   <!-- use input type="submit" with the required attribute -->
-                </form>
-
-                 <div id="storylist">
+                <h3>New Story</h3>
+                 <div style="margin-bottom: 22px">
+                    <form action="profile.html">
+                        <label>Title: </label>
+                        <input type="text" id="title" autofocus required onblur="checkTitle()" />
+                        <div id="title-msg" class="feedback"></div>
+                        <br/>
+                        <input type="button" value="Create" onclick="addStory()" />   <!-- use input type="submit" with the required attribute -->
+                    </form>
+                </div>
+                 <h3>My Stories</h3>
+                 <div id="storylist" class="group">
                   <table id="storyListTable" class="table" >
                     <thead>   <!-- set table headers -->
                       <tr>
@@ -87,54 +119,47 @@
                    function checkTitle() {
                       var msg = document.getElementById("title-msg");
                       var title = document.getElementById("title");
-                      if (title.value.length < 8 && title.value.length > 0)
+                      if (title.value.length < 2 && title.value.length > 0)
                          msg.textContent = "Title is too short";
                       else
                          msg.textContent = "";
                    }
 
-                  /*function validateInfo() {
-                      var user = document.getElementById("username").value;
-                      var pwd = document.getElementById("pwd").value;
-                      if (user.length <= 8)
-                      {
-                          document.getElementById("user-msg").innerHTML = "Username is too short";
-                          document.getElementById("username").focus();
-                         return false;
-                      }
-                      return true;
-                    }
-                  */
-
                   function addStory() {
                       var title = document.getElementById("title").value;
-                      var numComments = 0;
-                      var date = "2/22/18"
+                      if (title.length > 1) {
+                          var numComments = 0;
+                          var date = new Date();
+                          var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
 
-                      var rowdata = [title, numComments, date];
-                       var tableRef = document.getElementById("storyListTable");
+                          var rowdata = [title, numComments, today];
+                           var tableRef = document.getElementById("storyListTable");
 
-                       // create an empty <tr> element and add it to the table
-                       // using insertRow(index) method
-                       var newRow = tableRef.insertRow(tableRef.rows.length);
-                       // add event listener, on mouseover, set row index. This will be used when deleting a row
-                       newRow.onmouseover = function() { tableRef.clickedRowIndex = this.rowIndex; };
-                       // alternatively, use data-index to store index of the line
-                       //  (note: data-* attributes can store arbitrary data with elements)
-                       // eg: <div id="elem" data-index=3></div>
+                           // create an empty <tr> element and add it to the table
+                           // using insertRow(index) method
+                           var newRow = tableRef.insertRow(tableRef.rows.length);
+                           // add event listener, on mouseover, set row index. This will be used when deleting a row
+                           newRow.onmouseover = function() { tableRef.clickedRowIndex = this.rowIndex; };
+                           // alternatively, use data-index to store index of the line
+                           //  (note: data-* attributes can store arbitrary data with elements)
+                           // eg: <div id="elem" data-index=3></div>
 
-                       var newCell = "";
-                       var i = 0;
-                       // insert new cells (<td> elements) at the 1st, 2nd, 3rd position of the new <tr> element
-                       // using insertCell(method) method
-                       while (i < 3)
-                       {
-                          newCell = newRow.insertCell(i);
-                          newCell.innerHTML = rowdata[i];
-                          console.log(rowdata[i]);
-                          newCell.onmouseover = this.rowIndex;
-                          i++;
-                       }
+                           var newCell = "";
+                           var i = 0;
+                           // insert new cells (<td> elements) at the 1st, 2nd, 3rd position of the new <tr> element
+                           // using insertCell(method) method
+                           while (i < 3)
+                           {
+                              newCell = newRow.insertCell(i);
+                              newCell.innerHTML = rowdata[i];
+                              console.log(rowdata[i]);
+                              newCell.onmouseover = this.rowIndex;
+                              i++;
+                           }
+                      }
+                      else {
+                        document.getElementById("title-msg").innerHTML = "Title is too short";
+                      }
 
 
                     }
@@ -148,6 +173,19 @@
 
       </div>
     </section>
+
+    <footer class="primary-footer container">
+
+      <small class="copyright">&copy; Katelyn Stovall and Marissa Lee</small>
+
+      <nav class="nav">
+        <ul>
+          <li><a href="index.html" title="may or may not need, depending on design">Home</a></li>
+          <li><a href="contact.html" title="either email or form">Contact us</a></li>
+        </ul>
+      </nav>
+
+    </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
