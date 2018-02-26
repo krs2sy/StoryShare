@@ -149,7 +149,7 @@ textarea {
 }
 
 .primary-header a, .primary-footer a {
-  color: #ffffff;
+  color: #000000;
 }
 
 .primary-header a:hover, .primary-footer a:hover {
@@ -187,7 +187,7 @@ textarea {
 
 .copyright {
   float: left;
-  color: #ccffcc;
+  color: #000000;
 }
 
 .nav {
@@ -275,4 +275,19 @@ textarea {
 .new_post {
   margin-bottom: 22px;
   padding: 20px 30px 20px 30px;
+}
+
+.post_left {
+  width: 66%;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 15px;
+}
+
+.post_right {
+  width: 33%;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 15px;
+  float: right;
 }

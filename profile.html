@@ -37,7 +37,7 @@
                 </div>
                 <div class = "col profile_icon">
                     <img src="./images/MarissaPhoto.jpg" alt="Avatar" height="100px" width="100px">
-                    edit
+                    <label style="color: blue">edit</label>
                 </div>
             </section>
 
@@ -90,29 +90,38 @@
              <section class = "new_story">
                 <h3>New Story</h3>
                  <div style="margin-bottom: 22px">
-                    <form action="profile.html">
-                        <label>Title: </label>
-                        <input type="text" id="title" autofocus required onblur="checkTitle()" />
-                        <div id="title-msg" class="feedback"></div>
-                        <br/>
-                        <input type="button" value="Create" onclick="addStory()" />   <!-- use input type="submit" with the required attribute -->
-                    </form>
+                <form action="profile.html">
+                    <label>Title: </label>
+                    <input type="text" id="title" autofocus required onblur="checkTitle()" />
+                    <div id="title-msg" class="feedback"></div>
+                    <br/>
+                    <input type="button" value="Create" onclick="addStory()" />   <!-- use input type="submit" with the required attribute -->
+                </form>
                 </div>
                  <h3>My Stories</h3>
-                 <div id="storylist" class="group">
-                  <table id="storyListTable" class="table" >
-                    <thead>   <!-- set table headers -->
-                      <tr>
-                        <th>Title</th>
-                        <th>Comments</th>
-                        <th>Updated</th>
-                      </tr>
-                    </thead>
 
-                    <!-- JS will dynamically create add new row upon form submission -->
+                 <div class="group">
+                    <div class="post_left">
+                        <label style="color: blue; font-size: 18px"><i>Synergy</i></label>
+                        <p style="font-size: 12px">Updated: 12/05/17</p>
+                    </div>
+                    <div class="post_right">
+                        <p>7 comments</p>
+                    </div>
+                 </div>
 
-                  </table>
-                </div>
+                 <div class="group">
+                    <div class="post_left">
+                        <label style="color: blue; font-size: 18px"><i>Data Shield</i></label>
+                        <p style="font-size: 12px">Updated: 12/17/17</p>
+                    </div>
+                    <div class="post_right">
+                        <p>2 comments</p>
+                    </div>
+                 </div>
+
+
+                 <div id="content" class="feedback"></div>
 
                 <script>
 
@@ -132,30 +141,21 @@
                           var date = new Date();
                           var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
 
-                          var rowdata = [title, numComments, today];
-                           var tableRef = document.getElementById("storyListTable");
+                          //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
+                          var div = document.createElement('div');
 
-                           // create an empty <tr> element and add it to the table
-                           // using insertRow(index) method
-                           var newRow = tableRef.insertRow(tableRef.rows.length);
-                           // add event listener, on mouseover, set row index. This will be used when deleting a row
-                           newRow.onmouseover = function() { tableRef.clickedRowIndex = this.rowIndex; };
-                           // alternatively, use data-index to store index of the line
-                           //  (note: data-* attributes can store arbitrary data with elements)
-                           // eg: <div id="elem" data-index=3></div>
+                          div.className = 'group';
 
-                           var newCell = "";
-                           var i = 0;
-                           // insert new cells (<td> elements) at the 1st, 2nd, 3rd position of the new <tr> element
-                           // using insertCell(method) method
-                           while (i < 3)
-                           {
-                              newCell = newRow.insertCell(i);
-                              newCell.innerHTML = rowdata[i];
-                              console.log(rowdata[i]);
-                              newCell.onmouseover = this.rowIndex;
-                              i++;
-                           }
+                          div.innerHTML =
+                            '<div class="post_left">\
+                                <label style="color: blue; font-size: 18px"><i>' + title + '</i></label>\
+                                <p style="font-size: 12px">Updated: ' + today + '</p>\
+                            </div>\
+                            <div class="post_right">\
+                                <p>' + numComments + ' comments</p>\
+                            </div>';
+
+                          document.getElementById('content').appendChild(div);
                       }
                       else {
                         document.getElementById("title-msg").innerHTML = "Title is too short";
@@ -174,18 +174,7 @@
       </div>
     </section>
 
-    <footer class="primary-footer container">
-
-      <small class="copyright">&copy; Katelyn Stovall and Marissa Lee</small>
-
-      <nav class="nav">
-        <ul>
-          <li><a href="index.html" title="may or may not need, depending on design">Home</a></li>
-          <li><a href="contact.html" title="either email or form">Contact us</a></li>
-        </ul>
-      </nav>
-
-    </footer>
+    <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

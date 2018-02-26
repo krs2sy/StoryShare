@@ -1,3 +1,4 @@
+//From navbar example
 document.write('\
 \
  <nav class="navbar navbar-inverse navbar-static-top">\
