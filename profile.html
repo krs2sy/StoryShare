@@ -138,6 +138,8 @@
                       var title = document.getElementById("title").value;
                       if (title.length > 1) {
                           var numComments = 0;
+
+                          //code based on https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
                           var date = new Date();
                           var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
 
