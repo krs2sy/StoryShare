@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="styles/main.css">
 
     <!-- required scripts for IE -->
     <!--[if lt IE 9]>
@@ -23,7 +24,7 @@
 
 
     <section class="new_post">
-        <h3>Story Title Here </h3>
+        <h3>Story Title</h3>
             <select id="selectStory">
                 <option value="ch1">Chapter 1</option>
                 <option value = "ch2">Chapter 2</option>
@@ -39,7 +40,7 @@
           <label style="font-size: 18px"><b>Comments</b></label>
           </br>
 
-          <div class="group">
+         <div class="group">
               <div class="post_left">
                   <label style="color: blue; font-size: 12px"><i>Chris6</i></label>
                   <p style="font-size: 12px">i liked this</p>
@@ -48,19 +49,46 @@
                <label style="font-size: 10px"><i>Updated: 12/05/17</i></label>
               </div>
            </div>
+          <div id="content" class="feedback"></div>
+
             </br>
             <label>Write comment: </label>
             </br>
             ​<textarea id="textArea" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
-            <input style = "float: right" type="button" value="Post" onclick="addPost()" />   <!-- use input type="submit" with the required attribute -->
+            <input style = "float: right" type="button" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
              </form>
 
-
-        <div id="content" class="feedback"></div>
-
-
     </section>
+<script>
+    function addComment() {
+            var comment = document.getElementById("textArea").value;
+            if (comment.length > 1) {
+                var date = new Date();
+                var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+                var user = "Marissa"
+                //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
+                var div = document.createElement('div');
 
+                div.className = 'group';
+
+                div.innerHTML =
+                <div class="post_left">
+                  <label style="color: blue; font-size: 12px"> '+ user +' </label>\
+                  <p style="font-size: 12px"> '+ comment + '</p>\
+                </div>\
+              <div class="post_right">\
+               <label style="font-size: 10px"><i> Updated: ' + today + ' </i></label>\
+              </div>';
+
+                document.getElementById('content').appendChild(div);
+            }
+            else {
+              document.getElementById("title-msg").innerHTML = "Title is too short";
+            }
+
+
+          }
+        </script>
     <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
