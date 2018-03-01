@@ -3,6 +3,10 @@
    License: none (public domain)
 */
 
+/*
+  Started with in-class 2
+*/
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -141,6 +145,9 @@ input[type=text] {
   width: 100%;
 }
 
+/*
+Code from https://stackoverflow.com/questions/17209855/how-to-expand-textarea-width-to-100-of-parent-or-how-to-expand-any-html-elemen
+*/
 textarea {
     width: 100%;
     -webkit-box-sizing: border-box;
@@ -267,7 +274,7 @@ textarea {
 
 .profile_icon {
   max-width: 50%;
-  float-right;
+  float: right;
   padding: 0px 30px 20px 50px;
 
 }
