@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  <!-- required to handle IE -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+     <link rel="stylesheet" href="styles/main.css">
+    <!-- required scripts for IE -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>Story Share</title>
+
+  </head>
+<body>
+
+    <script src="navbar.js"></script>
+
+    <!-- highlight / showcase -->
+    <section class="row">
+      <div class="grid">
+
+        <section class="profile col">
+
+          <h2>Marissa</h2>
+            <section class = "profile_header">
+                <div class = "col">
+                    <p>Joined: 12/17/2018</p>
+                    <p>Experience: Hobbyist</p>
+                    <input type="button" id="follow" value="Follow"  onclick="follow()" />
+                </div>
+                <div class = "col profile_icon">
+                    <img src="./images/MarissaPhoto.jpg" alt="Avatar" height="100px" width="100px">
+                    <label style="color: blue">edit</label>
+                </div>
+            </section>
+
+
+            <script>
+               //The follow button will not show up on your profile but it will test for other users' profiles
+               function follow() {
+               var list = document.getElementById('followers_list');
+               var username = "Marissa";
+                  if (document.getElementById("follow").value == "Follow") {
+                      document.getElementById("follow").value = "Unfollow";
+                      //code from https://stackoverflow.com/questions/17773938/add-a-list-item-through-javascript
+                      var entry = document.createElement('li');
+                      entry.appendChild(document.createTextNode(username));
+                      list.appendChild(entry);
+                  }
+                  else {
+                      document.getElementById("follow").value = "Follow";
+                      //code from https://stackoverflow.com/questions/44937553/remove-last-item-of-a-list-using-javascript
+                      listItems = list.getElementsByTagName("li");
+                      var entry = listItems[listItems.length - 1];
+                      entry.parentNode.removeChild(entry);
+                  }
+               }
+
+              </script>
+
+            <section class = "bio group">
+                <h4>Biography:</h4>
+                <p>I am a computer science person who is more of a hobbyist</p>
+            </section>
+            <section class = "followers group">
+                <h4>I Follow:</h4>
+                <ul>
+                    <li>Katie</li>
+                    <li>Chris6</li>
+                </ul>
+
+            </section>
+
+            <section class = "followers group" >
+                <h4>My Followers:</h4>
+                <ul id = "followers_list">
+                    <li>SeaLove</li>
+                </ul>
+
+            </section>
+        </section>
+        <section class="col profile_stories">
+             <section class = "new_story">
+                <h3>New Story</h3>
+                 <div style="margin-bottom: 22px">
+                <form action="profile.html">
+                    <label>Title: </label>
+                    <input type="text" id="title" autofocus required onblur="checkTitle()" />
+                    <div id="title-msg" class="feedback"></div>
+                    <br/>
+                    <input type="button" value="Create" onclick="addStory()" />   <!-- use input type="submit" with the required attribute -->
+                </form>
+                </div>
+                 <h3>My Stories</h3>
+
+                 <div class="group">
+                    <div class="post_left">
+                        <label style="color: blue; font-size: 18px"><i>Synergy</i></label>
+                        <p style="font-size: 12px">Updated: 12/05/17</p>
+                    </div>
+                    <div class="post_right">
+                        <p>7 comments</p>
+                    </div>
+                 </div>
+
+                 <div class="group">
+                    <div class="post_left">
+                        <label style="color: blue; font-size: 18px"><i>Data Shield</i></label>
+                        <p style="font-size: 12px">Updated: 12/17/17</p>
+                    </div>
+                    <div class="post_right">
+                        <p>2 comments</p>
+                    </div>
+                 </div>
+
+
+                 <div id="content" class="feedback"></div>
+
+                <script>
+
+                   function checkTitle() {
+                      var msg = document.getElementById("title-msg");
+                      var title = document.getElementById("title");
+                      if (title.value.length < 2 && title.value.length > 0)
+                         msg.textContent = "Title is too short";
+                      else
+                         msg.textContent = "";
+                   }
+
+                  function addStory() {
+                      var title = document.getElementById("title").value;
+                      if (title.length > 1) {
+                          var numComments = 0;
+
+                          //code based on https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+                          var date = new Date();
+                          var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+                          //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
+                          var div = document.createElement('div');
+
+                          div.className = 'group';
+
+                          div.innerHTML =
+                            '<div class="post_left">\
+                                <label style="color: blue; font-size: 18px"><i>' + title + '</i></label>\
+                                <p style="font-size: 12px">Updated: ' + today + '</p>\
+                            </div>\
+                            <div class="post_right">\
+                                <p>' + numComments + ' comments</p>\
+                            </div>';
+
+                          document.getElementById('content').appendChild(div);
+                      }
+                      else {
+                        document.getElementById("title-msg").innerHTML = "Title is too short";
+                      }
+
+
+                    }
+
+                  </script>
+
+
+            </section>
+        </section>
+
+
+      </div>
+    </section>
+
+    <script src="footer.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+</body>
+</html>

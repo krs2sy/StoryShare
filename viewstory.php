@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  <!-- required to handle IE -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="styles/main.css">
+
+    <!-- required scripts for IE -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>Story Share</title>
+
+  </head>
+<body>
+    <script src="navbar.js"></script>
+
+
+    <section class="new_post">
+        <h3>Story Title</h3>
+            <select id="selectStory">
+                <option value="ch1">Chapter 1</option>
+                <option value = "ch2">Chapter 2</option>
+                <option value="ch3">Chapter 3</option>
+            </select>
+
+           <form id = "new_post" action="forum.html">
+            </br>
+            ​ <textarea readonly rows="15" cols="150" id="aboutDescription"
+            style="max-height:100px;min-height:100px; resize: none"> It was the season of sales. The august establishment of Walpurgis and Nettlepink had lowered its prices for an entire week as a concession to trade observances, much as an Arch-duchess might protestingly contract an attack of influenza for the unsatisfactory reason that influenza was locally prevalent. Adela Chemping, who considered herself in some measure superior to the allurements of an ordinary bargain sale, made a point of attending the reduction week at Walpurgis and Nettlepink's. "I'm not a bargain hunter," she said, "but I like to go where bargains are." With a view to providing herself with a male escort Mrs. Chemping had invited her youngest nephew to accompany her on the first day of the shopping expedition, throwing in the additional allurement of a cinematograph theatre and the prospect of light refreshment. As Cyprian was not yet eighteen she hoped he might not have reached that stage in masculine development when parcel-carrying is looked on as a thing abhorrent.</textarea>
+            </br>
+            </br>
+          <label style="font-size: 18px"><b>Comments</b></label>
+          </br>
+
+          <div class="group">
+              <div class="post_left">
+                  <label style="color: blue; font-size: 12px"><i>Chris6</i></label>
+                  <p style="font-size: 12px">i liked this</p>
+              </div>
+              <div class="post_right">
+               <label style="font-size: 10px"><i>Updated: 12/05/17</i></label>
+              </div>
+           </div>
+          <div id="content" class="feedback"></div>
+
+            </br>
+            <label>Write comment: </label>
+            </br>
+            ​<textarea id="textArea" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
+            <div id = "comment-msg" class = "feedback" > </div>
+            <input style = "float: right" type="button" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
+        </form>
+
+
+        <div id="content" class="feedback"></div>
+
+
+    </section>
+<script>
+    function addComment() {
+            var comment = document.getElementById("textArea").value;
+            if (comment.length > 1) {
+                var date = new Date();
+                var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+                var user = "Marissa"
+                //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
+                var div = document.createElement('div');
+
+                div.className = 'group';
+
+                div.innerHTML =
+                '<div class="post_left">\
+                  <label style="color: blue; font-size: 12px"> '+ user +' </label>\
+                  <p style="font-size: 12px"> '+ comment + '</p>\
+                </div>\
+              <div class="post_right">\
+               <label style="font-size: 10px"><i> Updated: ' + today + ' </i></label>\
+              </div>';
+               document.getElementById('content').appendChild(div);
+            }
+            else {
+              document.getElementById("comment-msg").innerHTML = "Comment is too short";
+            }
+          }
+        </script>
+    <script src="footer.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+</body>
+</html>
