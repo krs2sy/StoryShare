@@ -1,3 +1,18 @@
+<?php
+
+$comment_msg  = null;
+$comment  = null;
+$comments = array('this is the example comment');
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  if (empty($_POST['comment']))
+    $comment_msg = "Write your comment <br/>";
+  else 
+    $comment = $_POST['comment_msg'];
+    array_push($comments, comment);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -16,8 +31,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <title>Story Share</title>
-
+  <title>Story Share</title>
   </head>
 <body>
     <script src="navbar.js"></script>
@@ -31,14 +45,28 @@
                 <option value="ch3">Chapter 3</option>
             </select>
 
-           <form id = "new_post" action="forum.html">
+           <form id = "new_post" action="<?php $_SERVER['PHP_SELF'] ?>" method ="post">
             </br>
-            ​ <textarea readonly rows="15" cols="150" id="aboutDescription"
-            style="max-height:100px;min-height:100px; resize: none"> It was the season of sales. The august establishment of Walpurgis and Nettlepink had lowered its prices for an entire week as a concession to trade observances, much as an Arch-duchess might protestingly contract an attack of influenza for the unsatisfactory reason that influenza was locally prevalent. Adela Chemping, who considered herself in some measure superior to the allurements of an ordinary bargain sale, made a point of attending the reduction week at Walpurgis and Nettlepink's. "I'm not a bargain hunter," she said, "but I like to go where bargains are." With a view to providing herself with a male escort Mrs. Chemping had invited her youngest nephew to accompany her on the first day of the shopping expedition, throwing in the additional allurement of a cinematograph theatre and the prospect of light refreshment. As Cyprian was not yet eighteen she hoped he might not have reached that stage in masculine development when parcel-carrying is looked on as a thing abhorrent.</textarea>
+            ​ <textarea readonly rows="15" cols="150" id="textArea"
+              style="max-height:100px;min-height:100px; resize: none">It was the season of sales. The august establishment of Walpurgis and Nettlepink had lowered its prices for an entire week as a concession to trade observances, much as an Arch-duchess might protestingly contract an attack of influenza for the unsatisfactory reason that influenza was locally prevalent. Adela Chemping, who considered herself in some measure superior to the allurements of an ordinary bargain sale, made a point of attending the reduction week at Walpurgis and Nettlepink's. "I'm not a bargain hunter," she said, "but I like to go where bargains are." With a view to providing herself with a male escort Mrs. Chemping had invited her youngest nephew to accompany her on the first day of the shopping expedition, throwing in the additional allurement of a cinematograph theatre and the prospect of light refreshment. As Cyprian was not yet eighteen she hoped he might not have reached that stage in masculine development when parcel-carrying is looked on as a thing abhorrent. </textarea>
             </br>
             </br>
           <label style="font-size: 18px"><b>Comments</b></label>
           </br>
+
+          foreach ($comments as $comment) {
+              <div class="group">
+              <div class="post_left">
+                  <label style="color: blue; font-size: 12px"><i>Chris6</i></label>
+                  <p style="font-size: 12px">$comment</p>
+              </div>
+              <div class="post_right">
+               <label style="font-size: 10px"><i>"Updated: " + "getDate() </i></label>
+               </div>
+                </div>
+               <div id="content" class="feedback"></div>
+
+          }
 
           <div class="group">
               <div class="post_left">
@@ -54,9 +82,9 @@
             </br>
             <label>Write comment: </label>
             </br>
-            ​<textarea id="textArea" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
-            <div id = "comment-msg" class = "feedback" > </div>
-            <input style = "float: right" type="button" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
+            ​<textarea id="comment" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
+
+            <input style = "float: right" type="submit" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
         </form>
 
 
@@ -66,16 +94,15 @@
     </section>
 <script>
     function addComment() {
-            var comment = document.getElementById("textArea").value;
+
+            var comment = document.getElementById("comment").value;
             if (comment.length > 1) {
                 var date = new Date();
                 var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
                 var user = "Marissa"
                 //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
                 var div = document.createElement('div');
-
                 div.className = 'group';
-
                 div.innerHTML =
                 '<div class="post_left">\
                   <label style="color: blue; font-size: 12px"> '+ user +' </label>\
@@ -87,9 +114,17 @@
                document.getElementById('content').appendChild(div);
             }
             else {
-              document.getElementById("comment-msg").innerHTML = "Comment is too short";
+              document.getElementById("comment_msg").innerHTML = "Comment is too short";
             }
           }
+
+    function getDate() {
+        var date = new Date();
+        var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+        return today;
+     }
+
+
         </script>
     <script src="footer.js"></script>
 
