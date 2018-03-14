@@ -18,6 +18,18 @@
     $yourstories = array('New Story', 'Synergy', 'Data Shield', 'UVa History');
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
 
+    function addPost(&$title, &$descr, &$story, &$comment, &$date, &$titles, &$stories, &$comments, &$dates) {
+        $title = $_POST['title'];
+        $descr = $_POST['descr'];
+        $story = $_POST['selectStory'];
+        $comment = 0;
+        $date = date('m/d/y');
+        $titles[] = $title;
+        $stories[] = $story;
+        $comments[] = $comment;
+        $dates[] = $date;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['post'])) {
             if (empty($_POST['title']))
@@ -25,15 +37,7 @@
             if (empty($_POST['descr']))
                 $msg_descr = "Please enter a description.";
             else {
-                $title = $_POST['title'];
-                $descr = $_POST['descr'];
-                $story = $_POST['selectStory'];
-                $comment = 0;
-                $date = date('m/d/y');
-                $titles[] = $title;
-                $stories[] = $story;
-                $comments[] = $comment;
-                $dates[] = $date;
+                addPost($title, $descr, $story, $comment, $date, $titles, $stories, $comments, $dates);
 
             }
         }

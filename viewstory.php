@@ -9,7 +9,7 @@
     $dates = array('01/01/18', '01/08/18');
     //For the option menu of list of your stories
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
-    function addcomment(&$user, &$comment, &$date, &$users, &$comments, &$dates) {
+    function addcomment(&$username, &$comment, &$date, &$users, &$comments, &$dates) {
         $comment = $_POST['comment'];
         $date = date('m/d/y');
         $users[] = $username;
@@ -22,7 +22,7 @@
             if (empty($_POST['comment']))
                 $comment_msg = "Please enter a comment";
             else {
-               addComment($user, $comment, $date, $users, $comments, $dates)
+               addComment($username, $comment, $date, $users, $comments, $dates);
             }
         }
     }

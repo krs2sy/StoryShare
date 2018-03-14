@@ -27,6 +27,16 @@
         $dates[] = $date;
     }
 
+    function follow(&$follower, &$followers, $username) {
+        $follower = !$follower;
+        if ($follower) {
+            $followers[] = $username;
+        }
+        else {
+            unset($followers[count($followers)-1]);
+        }
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create'])) {
             if (empty($_POST['title']))
@@ -37,13 +47,7 @@
             }
         }
         else if (isset($_POST['follow'])) {
-            $follower = !$follower;
-            if ($follower) {
-                $prof_followers[] = $username;
-            }
-            else {
-                unset($prof_followers[count($prof_followers)-1]);
-            }
+            follow($follow, $prof_followers, $username);
         }
 
     }
@@ -131,8 +135,7 @@
                         for($key = count($prof_followers) - 1; $key >= 0; $key--) {
                             echo "<li>$prof_followers[$key]</li>";
                         }
-                        //if ($follower)
-                        //    echo "<li>$username</li>";
+
                     ?>
                 </ul>
 
