@@ -120,7 +120,7 @@
                 echo "<div class='group'>";
                 echo "<div class='post_left'>";
                 echo "<p style='font-size: 18px'>$titles[$key]</p>";
-                echo "<p style='color: blue'><i>$stories[$key]</i></p>";
+                echo "<p style='color: blue'><i><a href='viewstory.php'>$stories[$key]</a></i></p>";
                 echo "</div>";
                 echo "<div class='post_right'>";
                 echo "Updated: $dates[$key]";

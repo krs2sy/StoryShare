@@ -170,7 +170,7 @@
                         //echo "<li>$titles[$key], $comments[$key], $dates[$key]</li>";
                         echo "<div class='group'>";
                         echo "<div class='post_left'>";
-                        echo "<label style='color: blue; font-size: 18px'><i>$titles[$key]</i></label>";
+                        echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label>";
                         echo "<p style='font-size: 12px'>Updated: $dates[$key]</p>";
                         echo "</div>";
                         echo "<div class='post_right'>";

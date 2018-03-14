@@ -76,7 +76,7 @@
             for($key = count($comments) - 1; $key >= 0; $key--) {
                 echo "<div class='group'>";
                 echo "<div class='post_left'>";
-                echo "<label style='color:blue; font-size: 12px'><i>$users[$key]</label>";
+                echo "<label style='color:blue; font-size: 12px'><i><a href='profile.php'>$users[$key]</a></label>";
                 echo "<p style='font-size: 12px'>$comments[$key]</p>";
                 echo "</div>";
                 echo "<div class='post_right'>";
