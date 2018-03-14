@@ -88,6 +88,7 @@
             <br/>
             <label>Story: </label>
             <select name="selectStory">
+            <?php //code for iterating for option based on https://stackoverflow.com/questions/19884685/php-option-value ?>
             <?php foreach ($yourstories as $key => $value): ?>
                 <option value="<?php echo $value; ?>"> <?php echo $value; ?>
                  </option>
