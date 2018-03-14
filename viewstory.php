@@ -1,18 +1,32 @@
 <?php
+    $username = 'Marissa';
+    $comment = null;
+    $date = null;
+    $comment_msg  = null;
 
-$comment_msg  = null;
-$comment  = null;
-$comments = array('this is the example comment');
-if($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-  if (empty($_POST['comment']))
-    $comment_msg = "Write your comment <br/>";
-  else 
-    $comment = $_POST['comment_msg'];
-    array_push($comments, comment);
-}
+    //List of information of posts to display
+    $users = array('Marissa')
+    $comments = array(3, 8);
+    $dates = array('01/01/18', '01/08/18');
+    //For the option menu of list of your stories
+    //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['post'])) {
+            if (empty($_POST['comment']))
+                $comment_msg = "Please enter a title";
+            else {
+                $comment = $_POST['comment'];
+                $user = $_POST['username'];
+                $date = date('m/d/y');
+                $comments[] = $comment;
+                $dates[] = $date;
+                $users[] = $username;
 
+            }
+        }
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -34,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
   <title>Story Share</title>
   </head>
 <body>
-    <script src='navbar.php' type='text/javascript'></script>
+    <script src="navbar.js"></script>
 
 
     <section class="new_post">
@@ -53,20 +67,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             </br>
           <label style="font-size: 18px"><b>Comments</b></label>
           </br>
-
-          foreach ($comments as $comment) {
-              <div class="group">
-              <div class="post_left">
-                  <label style="color: blue; font-size: 12px"><i>Chris6</i></label>
-                  <p style="font-size: 12px">$comment</p>
-              </div>
-              <div class="post_right">
-               <label style="font-size: 10px"><i>"Updated: " + "getDate() </i></label>
-               </div>
-                </div>
-               <div id="content" class="feedback"></div>
-
-          }
+      
+          <?php
+            //Displaying each post in order from most recent
+            for($key = count($comments) - 1; $key >= 0; $key--) {
+                echo "<div class='group'>";
+                echo "<div class='post_left'>";
+                echo "<label style='color:blue; font-size: 12px'><i>$users[$key]</label>";
+                echo "<p style='font-size: 12px'>$comments[$key]</p>";
+                echo "</div>";
+                echo "<div class='post_right'>";
+                echo "<label style='font-size: 10px'><i>Updated: $dates[$key]</label>";
+                echo "</br>";
+                echo "</div>";
+                echo "</div>";
+            }
+         ?>
 
           <div class="group">
               <div class="post_left">
@@ -83,6 +99,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <label>Write comment: </label>
             </br>
             ​<textarea id="comment" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
+            <?php
+                echo "$comment_msg";
+            ?>
 
             <input style = "float: right" type="submit" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
         </form>
