@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
   <title>Story Share</title>
   </head>
 <body>
-    <script src="navbar.js"></script>
+    <script src='navbar.php' type='text/javascript'></script>
 
 
     <section class="new_post">

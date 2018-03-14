@@ -1,4 +1,11 @@
+<?php
+//Embedding javascript into php based on https://stackoverflow.com/questions/23574306/executing-php-code-inside-a-js-file/23574397
+$username = "Marissa";
+header("Content-type: application/javascript");
+?>
+
 //From navbar example
+
 document.write('\
 \
  <nav class="navbar navbar-inverse navbar-static-top">\
@@ -14,7 +21,7 @@ document.write('\
     </div>\
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\
       <ul class="nav navbar-nav navbar-right">\
-        <li><a href="profile.php">My Profile</a></li>\
+        <li><a href="profile.php">Welcome, <?php echo "$username"; ?></a></li>\
         <li><a href="forum.php">Forums</a></li>\
       </ul>\
     </div>\

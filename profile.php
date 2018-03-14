@@ -11,6 +11,13 @@
     $dates = array('12/05/17', '12/17/17');
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
 
+    $prof_user = 'Marissa';
+    $prof_bio = 'I am a computer science person who is more of a hobbyist.';
+    $prof_followees = array('chris6', 'Katie');
+    $prof_followers = array('SeaLove');
+    $prof_date = '12/17/2018';
+    $prof_exp = 'Hobbyist';
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create'])) {
             if (empty($_POST['title']))
@@ -27,9 +34,17 @@
         }
         else if (isset($_POST['follow'])) {
             $follower = !$follower;
+            if ($follower) {
+                $prof_followers[] = $username;
+            }
+            else {
+                unset($prof_followers[count($prof_followers)-1]);
+            }
         }
 
     }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +69,7 @@
   </head>
 <body>
 
-    <script src="navbar.js"></script>
+    <script src='navbar.php' type='text/javascript'></script>
 
     <!-- highlight / showcase -->
     <section class="row">
@@ -62,11 +77,11 @@
 
         <section class="profile col">
 
-          <h2>Marissa</h2>
+          <h2><?php echo "$prof_user"; ?></h2>
             <section class = "profile_header">
                 <div class = "col">
-                    <p>Joined: 12/17/2018</p>
-                    <p>Experience: Hobbyist</p>
+                    <p>Joined: <?php echo "$prof_date"; ?></p>
+                    <p>Experience: <?php echo "$prof_exp"; ?></p>
                     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
                     <?php
                         //Follow button shows up if you're not following
@@ -90,13 +105,17 @@
 
             <section class = "bio group">
                 <h4>Biography:</h4>
-                <p>I am a computer science person who is more of a hobbyist</p>
+                <p><?php echo "$prof_bio"; ?></p>
             </section>
             <section class = "followers group">
                 <h4>I Follow:</h4>
                 <ul>
-                    <li>Katie</li>
-                    <li>Chris6</li>
+                    <?php
+                        for($key = count($prof_followees) - 1; $key >= 0; $key--) {
+                            echo "<li>$prof_followees[$key]</li>";
+                        }
+                    ?>
+
                 </ul>
 
             </section>
@@ -104,10 +123,12 @@
             <section class = "followers group" >
                 <h4>My Followers:</h4>
                 <ul id = "followers_list">
-                    <li>SeaLove</li>
                     <?php
-                        if ($follower)
-                            echo "<li>$username</li>";
+                        for($key = count($prof_followers) - 1; $key >= 0; $key--) {
+                            echo "<li>$prof_followers[$key]</li>";
+                        }
+                        //if ($follower)
+                        //    echo "<li>$username</li>";
                     ?>
                 </ul>
 
@@ -120,24 +141,25 @@
 
                 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
                     <label>Title: </label>
-                    <input type="text" name="title" autofocus required onblur="" />
-                    <div id="title-msg" class="feedback"></div>
+                    <input type="text" name="title" autofocus onblur="" />
                     <?php
                         if ($title != null) {
-                            echo "Created new story with title, <i>$title</i> <br/>";
+                            echo "Created new story with title: <i>$title</i> <br/>";
                         }
                     ?>
                     <br/>
                     <input type="submit" name="create" value="Create" onclick="" />   <!-- use input type="submit" with the required attribute -->
                 </form>
+                <?php echo "$msg_title" ?>
 
                 </div>
                  <h3>My Stories</h3>
 
                  <?php
-                    //Displaying each story
-                    foreach($titles as $key=>$value) {
-                        // do stuff
+                    //Displaying each story in order from most recent
+
+                    //for loop code based on https://stackoverflow.com/questions/5315539/iterate-in-reverse-through-an-array-with-php-spl-solution
+                    for($key = count($titles) - 1; $key >= 0; $key--) {
                         //echo "<li>$titles[$key], $comments[$key], $dates[$key]</li>";
                         echo "<div class='group'>";
                         echo "<div class='post_left'>";

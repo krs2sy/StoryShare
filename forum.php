@@ -1,3 +1,45 @@
+<?php
+    $username = 'Marissa';
+    $title = null;
+    $descr = null;
+    $story = null;
+    $comment = null;
+    $date = null;
+    $msg_title = null;
+    $msg_descr = null;
+
+    //List of information of posts to display
+    $titles = array('Resources for Space Travel?', 'Which character should star next?');
+    $stories = array('New Story', 'Synergy');
+    $comments = array(3, 8);
+    $dates = array('01/01/18', '01/08/18');
+
+    //For the option menu of list of your stories
+    $yourstories = array('New Story', 'Synergy', 'Data Shield', 'UVa History');
+    //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['post'])) {
+            if (empty($_POST['title']))
+                $msg_title = "Please enter a title";
+            if (empty($_POST['descr']))
+                $msg_descr = "Please enter a description.";
+            else {
+                $title = $_POST['title'];
+                $descr = $_POST['descr'];
+                $story = $_POST['selectStory'];
+                $comment = 0;
+                $date = date('m/d/y');
+                $titles[] = $title;
+                $stories[] = $story;
+                $comments[] = $comment;
+                $dates[] = $date;
+
+            }
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -20,28 +62,42 @@
   </head>
 <body>
 
-    <script src="navbar.js"></script>
+    <script src='navbar.php' type='text/javascript'></script>
 
     <h2>Forums</h2>
 
     <section class="new_post">
         <h3>New Post</h3>
-        <form id = "new_post" action="forum.html">
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
             <label>Title: </label>
-            <input type="text" id="title" autofocus required onblur="checkTitle()" />
-            <div id="title-msg" class="feedback"></div>
+            <input type="text" name="title" autofocus onblur="" />
+            <?php
+                echo "$msg_title";
+            ?>
             <br/>
             <label>Description: </label>
-            ​<textarea id="textArea" rows="8" cols="70"></textarea>
+            ​<textarea name="descr" rows="8" cols="70"></textarea>
+            <br/>
+            <?php
+                echo "$msg_descr";
+            ?>
             <br/>
             <label>Story: </label>
-            <select id="selectStory">
-                <option value="New Story">New Story</option>
-                <option value = "Synergy">Synergy</option>
-                <option value="Data Shield">Data Shield</option>
+            <select name="selectStory">
+            <?php foreach ($yourstories as $key => $value): ?>
+                <option value="<?php echo $value; ?>"> <?php echo $value; ?>
+                 </option>
+            <?php endforeach; ?>
+
             </select>
-            <input style = "float: right" type="button" value="Post" onclick="addPost()" />   <!-- use input type="submit" with the required attribute -->
+            <input style = "float: right" type="submit" name="post" value="Post" onclick="" />   <!-- use input type="submit" with the required attribute -->
         </form>
+        <?php
+            if ($title != null && $descr != null) {
+                echo "Created new post with title: \"$title\" and description: \"$descr\" from story <i>$story</i> <br/>";
+            }
+        ?>
+        <br/>
 
     </section>
     <section class="new_post">
@@ -52,87 +108,24 @@
             <option value="myPosts">My Posts</option>
         </select>
 
-        <div class="group">
-            <div class="post_left">
-                <p style="font-size: 18px">Which character should star next?</p>
-                <p style="color: blue"><i>Synergy</i></p>
-            </div>
-            <div class="post_right">
-                Updated: 01/08/18
-                <br/>
-                <p>8 comments</p>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="post_left">
-                <p style="font-size: 18px">Resources for Space Travel?</p>
-                <p>New Story</p>
-            </div>
-            <div class="post_right">
-                Updated: 01/01/18
-                <br/>
-                <p>3 comments</p>
-            </div>
-        </div>
-
-        <div id="content" class="feedback"></div>
-
-        <script>
-
-           function checkTitle() {
-              var msg = document.getElementById("title-msg");
-              var title = document.getElementById("title");
-              if (title.value.length < 2 && title.value.length > 0)
-                 msg.textContent = "Title is too short";
-              else
-                 msg.textContent = "";
-           }
-
-          function addPost() {
-              var title = document.getElementById("title").value;
-              if (title.length > 1) {
-                  var story = document.getElementById("selectStory").value
-                  var numComments = 0;
-                  var date = new Date();
-                  var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
-
-                  var storyHTML;
-
-                  if(story == "New Story") {
-                    storyHTML = '>' + story;
-                  }
-                  else {
-                    storyHTML = 'style="color: blue"><i>' + story + '</i>';
-                  }
-
-                  //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
-                  var div = document.createElement('div');
-
-                  div.className = 'group';
-
-                  div.innerHTML =
-                        '<div class="post_left">\
-                            <p style="font-size: 18px">' + title + '</p>\
-                            <p' + storyHTML + '</p>\
-                        </div>\
-                        <div class="post_right">\
-                            Updated: ' + today + '\
-                            <br/>\
-                            <p>' + numComments + ' comments</p>\
-                        </div>';
-
-                  document.getElementById('content').appendChild(div);
-
-              }
-              else {
-                document.getElementById("title-msg").innerHTML = "Title is too short";
-              }
-
+        <?php
+            //Displaying each post in order from most recent
+            for($key = count($titles) - 1; $key >= 0; $key--) {
+                //echo "<li>$titles[$key], $stories[$key], $comments[$key], $dates[$key]</li>";
+                echo "<div class='group'>";
+                echo "<div class='post_left'>";
+                echo "<p style='font-size: 18px'>$titles[$key]</p>";
+                echo "<p style='color: blue'><i>$stories[$key]</i></p>";
+                echo "</div>";
+                echo "<div class='post_right'>";
+                echo "Updated: $dates[$key]";
+                echo "</br>";
+                echo "<p>$comments[$key] comments</p>";
+                echo "</div>";
+                echo "</div>";
 
             }
-
-          </script>
+         ?>
 
     </section>
 
