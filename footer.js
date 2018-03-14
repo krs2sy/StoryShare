@@ -5,7 +5,7 @@ document.write('\
       <small class="copyright">&copy; Katelyn Stovall and Marissa Lee</small>\
       <nav class="nav">\
         <ul>\
-          <li><a href="index.html" title="may or may not need, depending on design">Home</a></li>\
+          <li><a href="index.php" title="may or may not need, depending on design">Home</a></li>\
           <li><a href="#" title="either email or form">Contact us</a></li>\
         </ul>\
       </nav>\

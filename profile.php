@@ -149,14 +149,14 @@
                 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
                     <label>Title: </label>
                     <input type="text" name="title" autofocus onblur="" />
-                    <?php
-                        if ($title != null) {
-                            echo "Created new story with title: <i>$title</i> <br/>";
-                        }
-                    ?>
                     <br/>
                     <input type="submit" name="create" value="Create" onclick="" />   <!-- use input type="submit" with the required attribute -->
                 </form>
+                <?php
+                    if ($title != null) {
+                            echo "Created new story with title: <i>$title</i> <br/>";
+                    }
+                ?>
                 <?php echo "$msg_title" ?>
 
                 </div>

@@ -98,7 +98,7 @@
         </form>
         <?php
             if ($title != null && $descr != null) {
-                echo "Created new post with title: \"$title\" and description: \"$descr\" from story <i>$story</i> <br/>";
+                echo "Created new post with title: \"$title\" and description: \"$descr\" from story: <i>$story</i> <br/>";
             }
         ?>
         <br/>

@@ -1,5 +1,7 @@
 <?php
     $username = 'Marissa';
+    $title = 'Story Title';
+    $story = '';
     $comment = null;
     $date = null;
     $comment_msg  = null;
@@ -53,7 +55,7 @@
 
 
     <section class="new_post">
-        <h3>Story Title</h3>
+        <h3><?php echo "$title"; ?></h3>
             <select id="selectStory">
                 <option value="ch1">Chapter 1</option>
                 <option value = "ch2">Chapter 2</option>

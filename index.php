@@ -1,3 +1,11 @@
+<?php
+    $username = 'Marissa';
+    $titles = array('Synergy', 'Data Shield', 'Story Title');
+    $authors = array('Marissa', 'Marissa', 'Katie');
+    $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
+    $dates = array('12/05/17', '12/17/17', '01/28/18');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -35,38 +43,19 @@
     </br>
     </br>
     </br>
-             <div class="group">
-                <div class="post_left">
-                    <label style="color: blue; font-size: 18px"><i>Synergy</i></label> by <label style="color: blue; font-size: 18px"><a href="profile.php">Marissa</a></label>
-                    <p style="font-size: 12px">A group of friends go on adventures and balance the forces of heat and cold.</p>
-                </div>
-                <div class="post_right">
-                    <p>Updated: 12/05/17</p>
-                </div>
-             </div>
-
-             <div class="group">
-                <div class="post_left">
-                    <label style="color: blue; font-size: 18px"><i>Data Shield</i></label> by <label style="color: blue; font-size: 18px"><a href="profile.php">Marissa</a></label>
-                    <p style="font-size: 12px">Students of a cybersecurity academy use special computers to save their city from a hacker.</p>
-                </div>
-                <div class="post_right">
-                    <p>Updated: 12/17/17</p>
-                </div>
-             </div>
-
-             <div class="group">
-                <div class="post_left">
-                    <label style="color: blue; font-size: 18px"><a href="viewstory.php">Story Title</a></label> by <label style="color: blue; font-size: 18px"><i>Katie</i></label>
-                    <p style="font-size: 12px">Click on the title to view the story.</p>
-                </div>
-                <div class="post_right">
-                    <p>Updated: 1/28/18</p>
-                </div>
-             </div>
-
-             <div id="content" class="feedback"></div>
-
+             <?php
+                 for($key = count($titles) - 1; $key >= 0; $key--) {
+                    echo "<div class='group'>";
+                    echo "<div class='post_left'>";
+                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href='profile.php'>$authors[$key]</a></label>";
+                    echo "<p style='font-size: 12px'>$descrs[$key]</p>";
+                    echo "</div>";
+                    echo "<div class='post_right'>";
+                    echo "<p>Updated: 12/05/17</p>";
+                    echo "</div>";
+                    echo "</div>";
+                 }
+             ?>
             </section>
         </section>
 
