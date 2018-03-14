@@ -3,25 +3,26 @@
     $comment = null;
     $date = null;
     $comment_msg  = null;
-
     //List of information of posts to display
     $users = array('Marissa', 'Chris6');
     $comments = array('I liked this.', 'Can\'t wait till the next chapter.');
     $dates = array('01/01/18', '01/08/18');
     //For the option menu of list of your stories
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
+    function addcomment(&$user, &$comment, &$date, &$users, &$comments, &$dates) {
+        $comment = $_POST['comment'];
+        $date = date('m/d/y');
+        $users[] = $username;
+        $comments[] = $comment;
+        $dates[] = $date;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create_comment'])) {
             if (empty($_POST['comment']))
                 $comment_msg = "Please enter a comment";
             else {
-                $comment = $_POST['comment'];
-                //$user = $_POST['username'];
-                $date = date('m/d/y');
-                $comments[] = $comment;
-                $dates[] = $date;
-                $users[] = $username;
-
+               addComment($user, $comment, $date, $users, $comments, $dates)
             }
         }
     }
