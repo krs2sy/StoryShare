@@ -18,17 +18,21 @@
     $prof_date = '12/17/2018';
     $prof_exp = 'Hobbyist';
 
+    function addStory(&$title, &$comment, &$date, &$titles, &$comments, &$dates) {
+        $title = $_POST['title'];
+        $comment = 0;
+        $date = date('m/d/y');
+        $titles[] = $title;
+        $comments[] = $comment;
+        $dates[] = $date;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create'])) {
             if (empty($_POST['title']))
                 $msg_title = "Please enter a title";
             else {
-                $title = $_POST['title'];
-                $comment = 0;
-                $date = date('m/d/y');
-                $titles[] = $title;
-                $comments[] = $comment;
-                $dates[] = $date;
+                addStory($title, $comment, $date, $titles, $comments, $dates);
 
             }
         }

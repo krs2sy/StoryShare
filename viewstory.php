@@ -5,18 +5,18 @@
     $comment_msg  = null;
 
     //List of information of posts to display
-    $users = array('Marissa')
-    $comments = array(3, 8);
+    $users = array('Marissa', 'Chris6');
+    $comments = array('I liked this.', 'Can\'t wait till the next chapter.');
     $dates = array('01/01/18', '01/08/18');
     //For the option menu of list of your stories
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['post'])) {
+        if (isset($_POST['create_comment'])) {
             if (empty($_POST['comment']))
-                $comment_msg = "Please enter a title";
+                $comment_msg = "Please enter a comment";
             else {
                 $comment = $_POST['comment'];
-                $user = $_POST['username'];
+                //$user = $_POST['username'];
                 $date = date('m/d/y');
                 $comments[] = $comment;
                 $dates[] = $date;
@@ -59,7 +59,7 @@
                 <option value="ch3">Chapter 3</option>
             </select>
 
-           <form id = "new_post" action="<?php $_SERVER['PHP_SELF'] ?>" method ="post">
+
             </br>
             ​ <textarea readonly rows="15" cols="150" id="textArea"
               style="max-height:100px;min-height:100px; resize: none">It was the season of sales. The august establishment of Walpurgis and Nettlepink had lowered its prices for an entire week as a concession to trade observances, much as an Arch-duchess might protestingly contract an attack of influenza for the unsatisfactory reason that influenza was locally prevalent. Adela Chemping, who considered herself in some measure superior to the allurements of an ordinary bargain sale, made a point of attending the reduction week at Walpurgis and Nettlepink's. "I'm not a bargain hunter," she said, "but I like to go where bargains are." With a view to providing herself with a male escort Mrs. Chemping had invited her youngest nephew to accompany her on the first day of the shopping expedition, throwing in the additional allurement of a cinematograph theatre and the prospect of light refreshment. As Cyprian was not yet eighteen she hoped he might not have reached that stage in masculine development when parcel-carrying is looked on as a thing abhorrent. </textarea>
@@ -84,26 +84,16 @@
             }
          ?>
 
-          <div class="group">
-              <div class="post_left">
-                  <label style="color: blue; font-size: 12px"><i>Chris6</i></label>
-                  <p style="font-size: 12px">i liked this</p>
-              </div>
-              <div class="post_right">
-               <label style="font-size: 10px"><i>Updated: 12/05/17</i></label>
-              </div>
-           </div>
-          <div id="content" class="feedback"></div>
-
             </br>
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method ="post">
             <label>Write comment: </label>
             </br>
-            ​<textarea id="comment" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
+            ​<textarea name="comment" rows="8" cols="150" style="max-height:100px;min-height:100px; resize: none"></textarea>
             <?php
                 echo "$comment_msg";
             ?>
 
-            <input style = "float: right" type="submit" value="Post" onclick="addComment()" />   <!-- use input type="submit" with the required attribute -->
+            <input style = "float: right" type="submit" name="create_comment" value="Post" onclick="" />   <!-- use input type="submit" with the required attribute -->
         </form>
 
 
@@ -111,40 +101,7 @@
 
 
     </section>
-<script>
-    function addComment() {
 
-            var comment = document.getElementById("comment").value;
-            if (comment.length > 1) {
-                var date = new Date();
-                var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
-                var user = "Marissa"
-                //Code based on https://stackoverflow.com/questions/16467536/put-a-javascript-variable-into-a-innerhtml-code
-                var div = document.createElement('div');
-                div.className = 'group';
-                div.innerHTML =
-                '<div class="post_left">\
-                  <label style="color: blue; font-size: 12px"> '+ user +' </label>\
-                  <p style="font-size: 12px"> '+ comment + '</p>\
-                </div>\
-              <div class="post_right">\
-               <label style="font-size: 10px"><i> Updated: ' + today + ' </i></label>\
-              </div>';
-               document.getElementById('content').appendChild(div);
-            }
-            else {
-              document.getElementById("comment_msg").innerHTML = "Comment is too short";
-            }
-          }
-
-    function getDate() {
-        var date = new Date();
-        var today = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
-        return today;
-     }
-
-
-        </script>
     <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
