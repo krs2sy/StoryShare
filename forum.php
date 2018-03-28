@@ -1,5 +1,12 @@
 <?php
-    $username = 'Marissa';
+    session_start();
+    $username = "";
+
+    if (isset($_SESSION['username']))
+    {
+        $username = $_SESSION['username'];
+    }
+
     $title = null;
     $descr = null;
     $story = null;
@@ -65,7 +72,6 @@
 
   </head>
 <body>
-
     <script src='navbar.php' type='text/javascript'></script>
 
     <h2>Forums</h2>

@@ -1,9 +1,25 @@
 <?php
-    $username = 'Marissa';
+    session_start();
+    $username = '';
     $titles = array('Synergy', 'Data Shield', 'Story Title');
     $authors = array('Marissa', 'Marissa', 'Katie');
     $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
     $dates = array('12/05/17', '12/17/17', '01/28/18');
+
+    if (isset($_GET['username']))
+    {
+        $_SESSION['username']=$_GET['username'];
+        header("Refresh:0; url=index.php");
+    }
+    if (isset($_GET['loggedout']))
+    {
+        unset($_SESSION['username']);
+        header("Refresh:0; url=index.php");
+    }
+    if (isset($_SESSION['username']))
+    {
+        $username = $_SESSION['username'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +48,7 @@
 
  <h2>Stories</h2>
   
-
+    <?php //echo "$username"?>
 
    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -51,7 +67,7 @@
                     echo "<p style='font-size: 12px'>$descrs[$key]</p>";
                     echo "</div>";
                     echo "<div class='post_right'>";
-                    echo "<p>Updated: 12/05/17</p>";
+                    echo "<p>Updated: $dates[$key]</p>";
                     echo "</div>";
                     echo "</div>";
                  }

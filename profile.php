@@ -1,5 +1,10 @@
 <?php
-    $username = 'Marissa';
+    session_start();
+    $username = '';
+    if (isset($_SESSION['username']))
+    {
+        $username = $_SESSION['username'];
+    }
     $title = null;
     $comment = null;
     $date = null;
