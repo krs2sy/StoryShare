@@ -6,16 +6,23 @@
     $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
     $dates = array('12/05/17', '12/17/17', '01/28/18');
 
+    //Checks the parameter passed in by the login servlet
     if (isset($_GET['username']))
     {
+        //Creates a new session once the user is logged in.
         $_SESSION['username']=$_GET['username'];
         header("Refresh:0; url=index.php");
     }
+
+    //Checks the parameter passed in by the logout servlet
     if (isset($_GET['loggedout']))
     {
+        //Deletes the session with the user
         unset($_SESSION['username']);
         header("Refresh:0; url=index.php");
     }
+
+    //Sets the username value to the logged-in user's username
     if (isset($_SESSION['username']))
     {
         $username = $_SESSION['username'];
