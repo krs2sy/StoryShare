@@ -1,6 +1,14 @@
 <?php
     session_start();
     $username = '';
+    $refresh = false;
+    if (isset($_GET['username']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['username']=$_GET['username'];
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
     if (isset($_SESSION['username']))
     {
         $username = $_SESSION['username'];
@@ -16,12 +24,55 @@
     $dates = array('12/05/17', '12/17/17');
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
 
-    $prof_user = 'Marissa';
-    $prof_bio = 'I am a computer science person who is more of a hobbyist.';
+    $prof_user = $username;
     $prof_followees = array('chris6', 'Katie');
     $prof_followers = array('SeaLove');
     $prof_date = '12/17/2018';
-    $prof_exp = 'Hobbyist';
+    $prof_exp = '';
+    $prof_bio = '';
+    if (isset($_GET['name']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['name']=$_GET['name'];
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
+    if (isset($_GET['email']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['bio']=$_GET['email'];
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
+    if (isset($_GET['experience']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['experience']=$_GET['experience'];
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
+    if (isset($_GET['bio']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['bio']=$_GET['bio'];
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
+    if ($refresh) {
+        header("Refresh:0; url=profile.php");
+    }
+    if (isset($_SESSION['experience']))
+    {
+        $prof_exp = $_SESSION['experience'];
+    }
+    if (isset($_SESSION['bio']))
+    {
+        $prof_bio = $_SESSION['bio'];
+    }
+    if (isset($_SESSION['date']))
+    {
+        $prof_date = $_SESSION['date'];
+    }
 
     function addStory(&$title, &$comment, &$date, &$titles, &$comments, &$dates) {
         $title = $_POST['title'];
@@ -111,7 +162,7 @@
                 </div>
                 <div class = "col profile_icon">
                     <img src="./images/MarissaPhoto.jpg" alt="Avatar" height="100px" width="100px">
-                    <label style="color: blue">edit</label>
+                    <a href='http://localhost:8080/StoryShare_Servlet/ProfileForm.jsp'>edit</a>
                 </div>
             </section>
 

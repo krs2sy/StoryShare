@@ -5,13 +5,54 @@
     $authors = array('Marissa', 'Marissa', 'Katie');
     $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
     $dates = array('12/05/17', '12/17/17', '01/28/18');
+    $refresh = false;
 
     //Checks the parameter passed in by the login servlet
     if (isset($_GET['username']))
     {
         //Creates a new session once the user is logged in.
         $_SESSION['username']=$_GET['username'];
-        header("Refresh:0; url=index.php");
+        $refresh = true;
+        //header("Refresh:0; url=index.php");
+    }
+
+    //Checks the parameter passed in by the login servlet
+    if (isset($_GET['id']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['user_id']=$_GET['id'];
+        $refresh = true;
+    }
+
+    if (isset($_GET['name']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['name']=$_GET['name'];
+        $refresh = true;
+    }
+    if (isset($_GET['email']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['bio']=$_GET['email'];
+        $refresh = true;
+    }
+    if (isset($_GET['experience']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['experience']=$_GET['experience'];
+        $refresh = true;
+    }
+    if (isset($_GET['bio']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['bio']=$_GET['bio'];
+        $refresh = true;
+    }
+    if (isset($_GET['date']))
+    {
+        //Creates a new session once the user is logged in.
+        $_SESSION['date']=$_GET['date'];
+        $refresh = true;
     }
 
     //Checks the parameter passed in by the logout servlet
@@ -19,9 +60,17 @@
     {
         //Deletes the session with the user
         unset($_SESSION['username']);
+        unset($_SESSION['name']);
+        unset($_SESSION['email']);
+        unset($_SESSION['experience']);
+        unset($_SESSION['bio']);
+        unset($_SESSION['date']);
+        //header("Refresh:0; url=index.php");
+        $refresh = true;
+    }
+    if ($refresh) {
         header("Refresh:0; url=index.php");
     }
-
     //Sets the username value to the logged-in user's username
     if (isset($_SESSION['username']))
     {

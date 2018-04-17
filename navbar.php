@@ -15,8 +15,8 @@ $text1 = "Login";
 $link1 = "http://localhost:8080/StoryShare_Servlet/LoginServlet";
 
 //Hides the profile link for a logged-out user
-$text = "";
-$link="?";
+$text = "Create Account";
+$link="http://localhost/StoryShare/createaccount.php";
 $logout = "";
 
 //Changes the links for a logged in user
