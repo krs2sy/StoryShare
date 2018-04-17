@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $username = "";
+    $username = 'Anonymous';
 
     if (isset($_SESSION['username']))
     {
@@ -83,7 +83,12 @@
             for($key = count($comments) - 1; $key >= 0; $key--) {
                 echo "<div class='group'>";
                 echo "<div class='post_left'>";
-                echo "<label style='color:blue; font-size: 12px'><i><a href='profile.php'>$users[$key]</a></label>";
+                if ($users[$key] != "Anonymous") {
+                    echo "<label style='color:blue; font-size: 12px'><i><a href='profile.php'>$users[$key]</a></label>";
+                }
+                else {
+                    echo "<label style='font-size: 12px'>$users[$key]</label>";
+                }
                 echo "<p style='font-size: 12px'>$comments[$key]</p>";
                 echo "</div>";
                 echo "<div class='post_right'>";

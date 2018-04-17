@@ -33,7 +33,7 @@
 	        </tr>
 	        <tr>
 	          <td>Password: </td>
-	          <td><input type="text" name="servlet_password" /></td>
+	          <td><input type="password" name="servlet_password" /></td>
 	        </tr>
 	        <tr>
 	          <td>Name: </td>

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $username = '';
+    $username = 'Anonymous';
     $refresh = false;
     if (isset($_GET['username']))
     {
@@ -23,13 +23,16 @@
     $comments = array(7, 2);
     $dates = array('12/05/17', '12/17/17');
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
-
-    $prof_user = $username;
+    $prof_user = 'Marissa';
+    if ($username != 'Anonymous')
+    {
+        $prof_user = $username;
+    }
     $prof_followees = array('chris6', 'Katie');
     $prof_followers = array('SeaLove');
     $prof_date = '12/17/2018';
-    $prof_exp = '';
-    $prof_bio = '';
+    $prof_exp = 'Hobbyist';
+    $prof_bio = 'I am a student';
     if (isset($_GET['name']))
     {
         //Creates a new session once the user is logged in.
@@ -150,19 +153,29 @@
                     <?php
                         //Follow button shows up if you're not following
                         $value = null;
-                        if (!$follower) {
-                            $value = "Follow";
+                        //Ensure user cannot follow himself/herself
+                        if ($username != $prof_user) {
+                            if (!$follower) {
+                                $value = "Follow";
+                            }
+                            else {
+                                $value = "Unfollow";
+                            }
+                            echo "<input type='submit' name='follow' value=$value onclick='' />";
                         }
-                        else {
-                            $value = "Unfollow";
-                        }
-                        echo "<input type='submit' name='follow' value=$value onclick='' />";
+
                     ?>
                     </form>
                 </div>
                 <div class = "col profile_icon">
                     <img src="./images/MarissaPhoto.jpg" alt="Avatar" height="100px" width="100px">
-                    <a href='http://localhost:8080/StoryShare_Servlet/ProfileForm.jsp'>edit</a>
+
+                    <?php
+                    //Only logged in users can edit own profile
+                    if ($username == $prof_user) {
+                        echo "<a href='http://localhost:8080/StoryShare_Servlet/ProfileForm.jsp'>edit</a>";
+                    }
+                    ?>
                 </div>
             </section>
 

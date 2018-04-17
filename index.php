@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $username = '';
+    $username = 'Anonymous';
     $titles = array('Synergy', 'Data Shield', 'Story Title');
     $authors = array('Marissa', 'Marissa', 'Katie');
     $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
