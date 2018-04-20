@@ -2,7 +2,8 @@
     session_start();
     $username = 'Anonymous';
     $titles = array('Synergy', 'Data Shield', 'Story Title');
-    $authors = array('Marissa', 'Marissa', 'Katie');
+    $user_ids = array('0', '0', '1');
+    $authors = array('shardi3', 'shardi3', 'katie');
     $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
     $dates = array('12/05/17', '12/17/17', '01/28/18');
     $refresh = false;
@@ -59,6 +60,7 @@
     if (isset($_GET['loggedout']))
     {
         //Deletes the session with the user
+        unset($_SESSION['user_id']);
         unset($_SESSION['username']);
         unset($_SESSION['name']);
         unset($_SESSION['email']);
@@ -119,7 +121,8 @@
                  for($key = count($titles) - 1; $key >= 0; $key--) {
                     echo "<div class='group'>";
                     echo "<div class='post_left'>";
-                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href='profile.php'>$authors[$key]</a></label>";
+                    $prof_url = 'profile.php?prof_id=' . $user_ids[$key];
+                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href=" . $prof_url .">$authors[$key]</a></label>";
                     echo "<p style='font-size: 12px'>$descrs[$key]</p>";
                     echo "</div>";
                     echo "<div class='post_right'>";

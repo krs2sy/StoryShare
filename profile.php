@@ -1,4 +1,9 @@
 <?php
+    $servername = "localhost";
+    $db_name = "myl2vu";
+    $db_user = "myl2vu";
+    $db_pwd = "ilikeseals";
+
     session_start();
     $username = 'Anonymous';
     $refresh = false;
@@ -23,6 +28,13 @@
     $comments = array(7, 2);
     $dates = array('12/05/17', '12/17/17');
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
+    $prof_id = null;
+    if (isset($_GET['prof_id']))
+    {
+        //Creates a new session once the user is logged in.
+        $prof_id = $_GET['prof_id'];
+        //header("Refresh:0; url=index.php");
+    }
     $prof_user = 'Marissa';
     if ($username != 'Anonymous')
     {
@@ -96,6 +108,38 @@
         }
     }
 
+    function getUserInfo(&$servername, &$db_user, &$db_pwd, &$db_name, &$prof_id, &$prof_user, &$prof_exp, &$prof_bio, &$prof_date) {
+        // Create connection
+        $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM users WHERE user_id = " . $prof_id;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                //echo "id: " . $row["user_id"]. " - Username: " . $row["username"] . "<br>";
+                $prof_user = $row["username"];
+                $prof_exp = $row["experience"];
+                $prof_bio = $row["bio"];
+                $prof_date = $row["date"];
+                break;
+            }
+
+        } else {
+            echo "0 results";
+        }
+
+        $conn->close();
+    }
+
+    if(!isset($_SESSION['user_id']) || ($_SESSION['user_id'] !== $prof_id && $prof_id != null)) {
+        getUserInfo($servername, $db_user, $db_pwd, $db_name, $prof_id, $prof_user, $prof_exp, $prof_bio, $prof_date);
+    }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create'])) {
             if (empty($_POST['title']))
