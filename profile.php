@@ -259,10 +259,7 @@
                 <h3>New Story</h3>
                  <div style="margin-bottom: 22px">
 
-                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                    <label>Title: </label>
-                    <input type="text" name="title" autofocus onblur="" />
-                    <br/>
+                <form action="http://localhost/StoryShare/createstory.php" method="post">
                     <input type="submit" name="create" value="Create" onclick="" />   <!-- use input type="submit" with the required attribute -->
                 </form>
                 <?php
