@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="storyshareApp">
+<html >
 <head>
    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">  <!-- required to handle IE -->
@@ -16,14 +16,14 @@
     <![endif]-->
 
     <title>Story Share</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 </head>
-<body ng-init= "story = { story_id: -1, title:'UVa History', description :'', user_id :-1, date_created:''}; chapter = { number: 1, text:''}; msgs={ title_msg: '', descr_msg: '', text_msg :''}">
+<body ng-app="storyshareApp" ng-init= "story = { story_id: -1, title:'UVa History', description :'', user_id :-1, date_created:''}; chapter = { number: 1, text:''}; msgs={ title_msg: '', descr_msg: '', text_msg :''};">
 
     <script src='navbar.php' type='text/javascript'></script>
 
     <h3>New Story</h3>
-
+    {{story.story_id}}
     <div ng-controller="StoryController" class="new_post">
        Title: <input type="text" ng-model="story.title" id="title" />
        {{msgs.title_msg}}<br />
@@ -42,12 +42,37 @@
       {{msgs.text_msg}}<br />
 
       {{story.date_created}}
+      {{data}}
+
        <!-- let's add a button to clear the username variable -->
        <button ng-click="submit()">Create Story</button>
     </div>
 
     <script>
-       function StoryController($scope) {
+        var myApp = angular.module('storyshareApp', []);
+
+        myApp.controller("StoryController", function ($scope, $http, $window)
+        {
+
+            var onSuccess = function (data, status, headers, config) {
+                $scope.story.story_id = data;
+                var promise = $http.post("createchapterbackend.php", {"chapternumber": $scope.chapter.number, "chaptertext": $scope.chapter.text, "storyid": $scope.story.story_id})
+                promise.success(onChapterSuccess);
+                promise.error(onChapterError);
+            };
+
+            var onError = function (data, status, headers, config) {
+                $scope.data = "error";
+            };
+
+             var onChapterSuccess = function (data, status, headers, config) {
+                $window.location.href = 'http://localhost/StoryShare/viewstory.php?story_id=' + $scope.story.story_id + '&chapter_number=' + $scope.chapter.number;
+
+            };
+
+            var onChapterError = function (data, status, headers, config) {
+                $scope.data = "error";
+            };
 
     	   $scope.submit = function() {
     	       var okay = true;
@@ -92,13 +117,29 @@
                     var today = mm+'/'+dd+'/'+yyyy;
 
                     $scope.story.date_created = today;
-    	       //Will take to next page.
+
+    	            //Will take to next page.
+                    $scope.data = "send";
+
+    	            var promise = $http.post("http://localhost/StoryShare/createstorybackend.php", { "storytitle": $scope.story.title, "storydescr": $scope.story.description, "storydate": $scope.story.date_created});
+                    //var promise = $http.post("http://localhost/in-class/in-class-12/getCityState.php", { "zip": 81657 });
+                    $scope.data = "send1";
+                    promise.success(onSuccess);
+                    $scope.data = "send2";
+                    promise.error(onError);
+
+
+                    //Might try make separate http post request to createchapterbackend
+
+                    //redirect to viewstory at end.
+
     	       }
     	   }
 
-       }
-       var myApp = angular.module('storyshareApp', []);
-       myApp.controller("StoryController", StoryController);
+
+        });
+
+
     </script>
 
     <script src="footer.js"></script>
