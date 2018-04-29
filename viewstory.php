@@ -1,14 +1,33 @@
 <?php
+    $servername = "localhost";
+    $db_name = "myl2vu";
+    $db_user = "myl2vu";
+    $db_pwd = "ilikeseals";
+
     session_start();
     $username = 'Anonymous';
+    $author_id = -1;
+    $author_username = '';
+    $story_id = 1;
+    $chapter_number = 1;
+    $num_chapters = 1;
+
+    if (isset($_GET['story_id']))
+    {
+        $story_id = $_GET['story_id'];
+    }
+    if (isset($_GET['chapter_number']))
+    {
+        $chapter_number = $_GET['chapter_number'];
+    }
 
     if (isset($_SESSION['username']))
     {
         $username = $_SESSION['username'];
     }
 
-    $title = 'Story Title';
-    $story = '';
+    $story_title = 'Story Title';
+    $chapter_text = '';
     $comment = null;
     $date = null;
     $comment_msg  = null;
@@ -35,6 +54,42 @@
             }
         }
     }
+
+    function getStoryInfo(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$story_title, &$author_id, &$author_username, &$chapter_number, &$chapter_text, &$num_chapters) {
+        // Create connection
+        $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM stories AS s JOIN chapters AS c ON s.story_id = c.story_id JOIN users AS u ON s.user_id = u.user_id WHERE s.story_id = " . $story_id . " AND c.chapter_number = " . $chapter_number;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                //echo "id: " . $row["user_id"]. " - Username: " . $row["username"] . "<br>";
+                $story_title = $row["story_title"];
+                $author_id = $row["user_id"];
+                $author_username = $row["username"];
+                $chapter_text = $row["chapter_text"];
+                break;
+            }
+
+        } else {
+            echo "0 results";
+        }
+        $sql = "SELECT count(1) FROM chapters WHERE story_id = " . $story_id;
+        $result = $conn->query($sql);
+        $row = $result->fetch_array();
+
+        $num_chapters = $row[0];
+
+        $conn->close();
+    }
+    getStoryInfo($servername, $db_user, $db_pwd, $db_name, $story_id, $story_title, $author_id, $author_username, $chapter_number, $chapter_text, $num_chapters);
+
 ?>
 
 <!DOCTYPE html>
@@ -62,17 +117,24 @@
 
 
     <section class="new_post">
-        <h3><?php echo "$title"; ?></h3>
-            <select id="selectStory">
-                <option value="ch1">Chapter 1</option>
-                <option value = "ch2">Chapter 2</option>
-                <option value="ch3">Chapter 3</option>
+        <h3><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h3>
+            <select id="selectChapter" onchange="if (this.value) window.location.href='http://localhost/StoryShare/viewstory.php?story_id=<?php echo $story_id;?>&chapter_number='+this.value">
+                 <?php
+                 //Iterating through each chapter a story has
+                 for($key = 1; $key < $num_chapters+1; $key++) { ?>
+                 <option value="<?php echo $key; ?>"> <?php echo "Chapter $key"; ?>
+                 </option>
+                 <?php  }  ?>
             </select>
+            <script>
+                //Trying to set option by chapter number
 
+       		    document.getElementById('selectChapter').value = <?php echo $chapter_number ?>;
+             </script>
 
             </br>
             ​ <textarea readonly rows="15" cols="150" id="textArea"
-              style="max-height:100px;min-height:100px; resize: none">It was the season of sales. The august establishment of Walpurgis and Nettlepink had lowered its prices for an entire week as a concession to trade observances, much as an Arch-duchess might protestingly contract an attack of influenza for the unsatisfactory reason that influenza was locally prevalent. Adela Chemping, who considered herself in some measure superior to the allurements of an ordinary bargain sale, made a point of attending the reduction week at Walpurgis and Nettlepink's. "I'm not a bargain hunter," she said, "but I like to go where bargains are." With a view to providing herself with a male escort Mrs. Chemping had invited her youngest nephew to accompany her on the first day of the shopping expedition, throwing in the additional allurement of a cinematograph theatre and the prospect of light refreshment. As Cyprian was not yet eighteen she hoped he might not have reached that stage in masculine development when parcel-carrying is looked on as a thing abhorrent. </textarea>
+              style="max-height:100px;min-height:100px; resize: none"> <?php echo "$chapter_text"; ?> </textarea>
             </br>
             </br>
           <label style="font-size: 18px"><b>Comments</b></label>
