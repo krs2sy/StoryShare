@@ -1,11 +1,17 @@
 <?php
+    $servername = "localhost";
+    $db_name = "myl2vu";
+    $db_user = "myl2vu";
+    $db_pwd = "ilikeseals";
+
     session_start();
     $username = 'Anonymous';
-    $titles = array('Synergy', 'Data Shield', 'Story Title');
-    $user_ids = array('0', '0', '1');
-    $authors = array('shardi3', 'shardi3', 'katie');
-    $descrs = array('A group of friends go on adventures and balance the forces of heat and cold.', 'Students of a cybersecurity academy use special computers to save their city from a hacker.', 'Click on the title to view the story.');
-    $dates = array('12/05/17', '12/17/17', '01/28/18');
+    $titles = array();
+    $story_ids = array();
+    $user_ids = array();
+    $authors = array();
+    $descrs = array();
+    $dates = array();
     $refresh = false;
 
     //Checks the parameter passed in by the login servlet
@@ -78,6 +84,39 @@
     {
         $username = $_SESSION['username'];
     }
+
+    function getStories(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_ids, &$titles, &$descrs, &$dates, &$user_ids, &$authors) {
+        // Create connection
+        $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM stories AS s JOIN users AS u ON s.user_id = u.user_id ORDER BY `story_date`";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $story_ids[] = $row["story_id"];
+                $titles[] = $row["story_title"];
+                $descrs[] = $row["story_description"];
+                $dates[] = date("m/d/Y", strtotime($row["story_date"]));
+                $user_ids[] = $row["user_id"];
+                $authors[] = $row["username"];
+                //echo $row["username"];
+            }
+            //print_r($authors);
+        } else {
+            echo "0 results";
+        }
+
+        $conn->close();
+    }
+    getStories($servername, $db_user, $db_pwd, $db_name, $story_ids, $titles, $descrs, $dates, $user_ids, $authors);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +161,7 @@
                     echo "<div class='group'>";
                     echo "<div class='post_left'>";
                     $prof_url = 'profile.php?prof_id=' . $user_ids[$key];
-                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href=" . $prof_url .">$authors[$key]</a></label>";
+                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php?story_id=$story_ids[$key]&chapter_number=1'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href=" . $prof_url .">$authors[$key]</a></label>";
                     echo "<p style='font-size: 12px'>$descrs[$key]</p>";
                     echo "</div>";
                     echo "<div class='post_right'>";

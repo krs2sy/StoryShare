@@ -18,7 +18,7 @@
     <title>Story Share</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 </head>
-<body ng-app="storyshareApp" ng-init= "story = { story_id: -1, title:'UVa History', description :'', user_id :-1, date_created:''}; chapter = { number: 1, text:''}; msgs={ title_msg: '', descr_msg: '', text_msg :''};">
+<body ng-app="storyshareApp" ng-init= "story = { story_id: -1, title:'', description :'', user_id :-1, date_created:''}; chapter = { number: 1, text:''}; msgs={ title_msg: '', descr_msg: '', text_msg :''};">
 
     <script src='navbar.php' type='text/javascript'></script>
 
@@ -27,7 +27,7 @@
     <div ng-controller="StoryController" class="new_post">
        Title: <input type="text" ng-model="story.title" id="title" />
        {{msgs.title_msg}}<br />
-       Description: <input type="text" ng-model="story.description" id="title" />
+       Description: <input type="text" ng-model="story.description" id="description" />
        {{msgs.descr_msg}}<br />
        <br />
        <h3>Chapter {{ chapter.number }}</h3>
@@ -114,8 +114,9 @@
                     if(mm<10){
                         mm='0'+mm;
                     }
-                    var today = mm+'/'+dd+'/'+yyyy;
-
+                    //var today = mm+'/'+dd+'/'+yyyy;
+                    var today = yyyy + '-' + mm + '-' + dd;
+                    //$today=date("Y-m-d",strtotime($today));
                     $scope.story.date_created = today;
 
     	            //Will take to next page.

@@ -2,11 +2,16 @@
 session_start();
 //Embedding javascript into php based on https://stackoverflow.com/questions/23574306/executing-php-code-inside-a-js-file/23574397
 $username = "";
+$user_id = -1;
 
 //Checks the logged-in user's username
 if (isset($_SESSION['username']))
 {
     $username = $_SESSION['username'];
+}
+if (isset($_SESSION['user_id']))
+{
+    $user_id = $_SESSION['user_id'];
 }
 header("Content-type: application/javascript");
 
@@ -27,7 +32,7 @@ if ($username != "") {
     $text1 = "Logout";
 
     //Displays the link to the logged-in user's profile
-    $link = "http://localhost/StoryShare/profile.php";
+    $link = "http://localhost/StoryShare/profile.php?prof_id=" . $user_id;
     $text = "Welcome, $username";
     //$logout = '<li><a href="http://localhost/StoryShare/forum.php">Logout</a></li>\';
 }

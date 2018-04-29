@@ -6,6 +6,7 @@
 
     session_start();
     $username = 'Anonymous';
+    $user_id;
     $refresh = false;
     if (isset($_GET['username']))
     {
@@ -18,15 +19,21 @@
     {
         $username = $_SESSION['username'];
     }
+    if (isset($_SESSION['user_id']))
+    {
+        $user_id = $_SESSION['user_id'];
+    }
     $title = null;
     $comment = null;
     $date = null;
     $msg_title = null;
     $follower = false;
 
-    $titles = array('Synergy', 'Data Shield');
-    $comments = array(7, 2);
-    $dates = array('12/05/17', '12/17/17');
+    $story_ids = array();
+    $titles = array();
+    $descrs = array();
+    $comments = array();
+    $dates = array();
     //$storyMatrix = array('Title' => $title, 'Comment' => $comments, 'Date' => $dates);
     $prof_id = null;
     if (isset($_GET['prof_id']))
@@ -74,7 +81,7 @@
         //header("Refresh:0; url=index.php");
     }
     if ($refresh) {
-        header("Refresh:0; url=profile.php");
+        header("Refresh:0; url=profile.php?prof_id=" . $user_id);
     }
     if (isset($_SESSION['experience']))
     {
@@ -140,6 +147,37 @@
     if(!isset($_SESSION['user_id']) || ($_SESSION['user_id'] !== $prof_id && $prof_id != null)) {
         getUserInfo($servername, $db_user, $db_pwd, $db_name, $prof_id, $prof_user, $prof_exp, $prof_bio, $prof_date);
     }
+
+    function getStories(&$servername, &$db_user, &$db_pwd, &$db_name, &$prof_id, &$story_ids, &$titles, &$descrs, &$dates, &$comments) {
+        // Create connection
+        $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM stories WHERE user_id = " . $prof_id;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $story_ids[] = $row["story_id"];
+                $titles[] = $row["story_title"];
+                $descrs[] = $row["story_description"];
+                $dates[] = date("m/d/Y", strtotime($row["story_date"]));
+                $comments[] = 0;
+                //echo $row["username"];
+            }
+            //print_r($authors);
+        } else {
+            echo "0 results";
+        }
+
+        $conn->close();
+    }
+    getStories($servername, $db_user, $db_pwd, $db_name, $prof_id, $story_ids, $titles, $descrs, $dates, $comments);
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['create'])) {
             if (empty($_POST['title']))
@@ -280,7 +318,7 @@
                         //echo "<li>$titles[$key], $comments[$key], $dates[$key]</li>";
                         echo "<div class='group'>";
                         echo "<div class='post_left'>";
-                        echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php'>$titles[$key]</a></i></label>";
+                        echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php?story_id=$story_ids[$key]&chapter_number=1'>$titles[$key]</a></i></label>";
                         echo "<p style='font-size: 12px'>Updated: $dates[$key]</p>";
                         echo "</div>";
                         echo "<div class='post_right'>";

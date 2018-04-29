@@ -9,6 +9,7 @@
     $author_id = -1;
     $author_username = '';
     $story_id = 1;
+    $story_descr = '';
     $chapter_number = 1;
     $num_chapters = 1;
 
@@ -55,7 +56,7 @@
         }
     }
 
-    function getStoryInfo(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$story_title, &$author_id, &$author_username, &$chapter_number, &$chapter_text, &$num_chapters) {
+    function getStoryInfo(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$story_title, &$story_descr, &$author_id, &$author_username, &$chapter_number, &$chapter_text, &$num_chapters) {
         // Create connection
         $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
 
@@ -71,6 +72,7 @@
             while($row = $result->fetch_assoc()) {
                 //echo "id: " . $row["user_id"]. " - Username: " . $row["username"] . "<br>";
                 $story_title = $row["story_title"];
+                $story_descr = $row["story_description"];
                 $author_id = $row["user_id"];
                 $author_username = $row["username"];
                 $chapter_text = $row["chapter_text"];
@@ -88,7 +90,7 @@
 
         $conn->close();
     }
-    getStoryInfo($servername, $db_user, $db_pwd, $db_name, $story_id, $story_title, $author_id, $author_username, $chapter_number, $chapter_text, $num_chapters);
+    getStoryInfo($servername, $db_user, $db_pwd, $db_name, $story_id, $story_title, $story_descr, $author_id, $author_username, $chapter_number, $chapter_text, $num_chapters);
 
 ?>
 
@@ -118,6 +120,8 @@
 
     <section class="new_post">
         <h3><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h3>
+            <input type="text" readonly id="description" value="<?php echo $story_descr?>" /> <br />
+            <br />
             <select id="selectChapter" onchange="if (this.value) window.location.href='http://localhost/StoryShare/viewstory.php?story_id=<?php echo $story_id;?>&chapter_number='+this.value">
                  <?php
                  //Iterating through each chapter a story has
@@ -133,7 +137,7 @@
              </script>
 
             </br>
-            ​ <textarea readonly rows="15" cols="150" id="textArea"
+            ​ <textarea readonly rows="40" cols="150" id="textArea"
               style="max-height:100px;min-height:100px; resize: none"> <?php echo "$chapter_text"; ?> </textarea>
             </br>
             </br>

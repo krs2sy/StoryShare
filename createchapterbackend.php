@@ -11,7 +11,7 @@ $post_data = file_get_contents("php://input");
 $data = json_decode($post_data);
 $chapter_number = $data->chapternumber;
 $chapter_text = $data->chaptertext;
-//$user_id = $_SESSION["user_id"];
+
 $story_id = $data->storyid;
 echo "Story id from create chapter: " . $story_id;
 
