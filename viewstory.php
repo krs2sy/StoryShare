@@ -54,6 +54,31 @@
                addComment($username, $comment, $date, $users, $comments, $dates);
             }
         }
+        if (isset($_POST['update_chapter'])) {
+
+            updateChapter($servername, $db_user, $db_pwd, $db_name, $chapter_number, $_POST['chaptertext'], $story_id);
+
+        }
+    }
+
+    function updateChapter(&$servername, &$db_user, &$db_pwd, &$db_name, &$chapter_number, &$chapter_text, &$story_id) {
+        try {
+            //Insert story information into database
+             //$conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
+            $conn = new PDO("mysql:host=$servername;dbname=$db_name", $db_user, $db_pwd);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $st=$conn->prepare("UPDATE chapters SET `chapter_text` = ? WHERE `chapter_number`=? AND `story_id`=?");
+            $st->execute(array($chapter_text, $chapter_number, $story_id));
+            //$result = $conn->exec($sql);
+
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+        }
+        //$conn->close();
+        $conn = null;
     }
 
     function getStoryInfo(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$story_title, &$story_descr, &$author_id, &$author_username, &$chapter_number, &$chapter_text, &$num_chapters) {
@@ -113,8 +138,9 @@
     <![endif]-->
 
   <title>Story Share</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
   </head>
-<body>
+<body ng-app ng-init="edit=false">
     <script src='navbar.php' type='text/javascript'></script>
 
 
@@ -135,10 +161,20 @@
 
        		    document.getElementById('selectChapter').value = <?php echo $chapter_number ?>;
              </script>
+            <?php
+                if ($_SESSION['user_id'] == $author_id) {
+                    echo 'Edit chapter: <input type="checkbox" ng-model="edit">';
+                }
+            ?>
+            <br />
 
-            </br>
-            ​ <textarea readonly rows="40" cols="150" id="textArea"
-              style="max-height:100px;min-height:100px; resize: none"> <?php echo "$chapter_text"; ?> </textarea>
+             <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+                <input ng-show="edit" type='submit' name='update_chapter' value="Update Chapter" onclick='' />
+                </br>
+            ​   <textarea ng-readonly="!edit" [ng-minlength=1] rows="40" name="chaptertext"> <?php echo "$chapter_text"; ?> </textarea>
+                <input type="hidden" name="chapter_number" value="<?php echo $chapter_number;?>">
+                <input type="hidden" name="story_id" value="<?php echo $story_id;?>">
+             </form>
             </br>
             </br>
           <label style="font-size: 18px"><b>Comments</b></label>
