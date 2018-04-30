@@ -13,24 +13,29 @@ $chapter_number = $data->chapternumber;
 $chapter_text = $data->chaptertext;
 
 $story_id = $data->storyid;
-echo "Story id from create chapter: " . $story_id;
+//echo "Story id from create chapter: " . $story_id;
 
 //Make database call to get story_id
 //Check session for user_id
 
 //Insert story information into database
- $conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
-if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+try {
+    //Insert story information into database
+     //$conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
+    $conn = new PDO("mysql:host=$SERVER;dbname=$DATABASE", $USERNAME, $PASSWORD);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $st=$conn->prepare("INSERT INTO chapters (chapter_number, chapter_text, story_id) VALUES (?, ?, ?)");
+    $st->execute(array($chapter_number, $chapter_text, $story_id));
+    //$result = $conn->exec($sql);
+
 }
-
-$sql="INSERT INTO chapters (chapter_number, chapter_text, story_id) VALUES ('" . $chapter_number . "', '" . $chapter_text . "', " . $story_id . ")";
-
-if (!mysqli_query($conn,$sql))
+catch(PDOException $e)
 {
-     die('Error: ' . mysqli_error($conn));
- }
-$conn->close();
+    echo $sql . "<br>" . $e->getMessage();
+}
+//$conn->close();
+$conn = null;
 
 
 

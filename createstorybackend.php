@@ -22,38 +22,33 @@ $story_id = -1;
 //Make database call to get story_id
 //Check session for user_id
 
-//Insert story information into database
- $conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
-if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+try {
+    //Insert story information into database
+     //$conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
+    $conn = new PDO("mysql:host=$SERVER;dbname=$DATABASE", $USERNAME, $PASSWORD);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $st=$conn->prepare("INSERT INTO stories (story_title, story_description, user_id, story_date) VALUES (?, ?, ?, ?)");
+    $st->execute(array($story_title, $story_descr, $user_id, $story_date));
+    //$result = $conn->exec($sql);
+
+
+    $st = $conn->prepare("SELECT `story_id` FROM stories WHERE story_title = ? AND story_description = ? AND user_id = ?");
+    $st->execute(array($story_title, $story_descr, $user_id));
+
+    //$result = $st->setFetchMode(PDO::FETCH_ASSOC);
+    for($i=0; $row = $st->fetch(); $i++){
+        $story_id = $row['story_id'];
+        //break;
+    }
+
 }
-
-$sql="INSERT INTO stories (story_title, story_description, user_id, story_date) VALUES ('" . $story_title . "', '" . $story_descr . "', " . $user_id . ", '" . $story_date . "')";
-
-$result = $conn->query($sql);
-
-if ($conn->query($sql) === TRUE) {
-    //echo "New record created successfully";
-    $sql = "SELECT `story_id` FROM stories WHERE story_title = '" . $story_title . "' AND story_description = '" . $story_descr . "' AND user_id = " . $user_id;
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            //Get last row
-            while($row = $result->fetch_assoc()) {
-                $story_id = $row["story_id"];
-                break;
-            }
-
-        } else {
-            echo "0 results";
-        }
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+catch(PDOException $e)
+{
+    echo $sql . "<br>" . $e->getMessage();
 }
-
-$conn->close();
-
+//$conn->close();
+$conn = null;
 
 
 //Might make separate backend for create_chapter and send post request there

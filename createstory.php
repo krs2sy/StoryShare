@@ -23,7 +23,6 @@
     <script src='navbar.php' type='text/javascript'></script>
 
     <h3>New Story</h3>
-    {{story.story_id}}
     <div ng-controller="StoryController" class="new_post">
        Title: <input type="text" ng-model="story.title" id="title" />
        {{msgs.title_msg}}<br />
