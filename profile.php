@@ -294,20 +294,18 @@
         </section>
         <section class="col profile_stories">
              <section class = "new_story">
-                <h3>New Story</h3>
-                 <div style="margin-bottom: 22px">
+             <?php
+                if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $prof_id)
+                {
 
-                <form action="http://localhost/StoryShare/createstory.php" method="post">
-                    <input type="submit" name="create" value="Create" onclick="" />   <!-- use input type="submit" with the required attribute -->
-                </form>
-                <?php
-                    if ($title != null) {
-                            echo "Created new story with title: <i>$title</i> <br/>";
-                    }
-                ?>
-                <?php echo "$msg_title" ?>
-
-                </div>
+                    echo "<h3>New Story</h3>";
+                    echo "<div style='margin-bottom: 22px'>";
+                    echo "<form action='http://localhost/StoryShare/createstory.html' method='post'>";
+                    echo "<input type='submit' name='create' value='Create' onclick='' />";
+                    echo "</form>";
+                    echo "</div>";
+                }
+             ?>
                  <h3>My Stories</h3>
 
                  <?php
@@ -320,6 +318,10 @@
                         echo "<div class='post_left'>";
                         echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php?story_id=$story_ids[$key]&chapter_number=1'>$titles[$key]</a></i></label>";
                         echo "<p style='font-size: 12px'>Updated: $dates[$key]</p>";
+                        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $prof_id)
+                        {
+                            echo "<a href='createchapter.php?story_id=$story_ids[$key]'>Add Chapter</a>";
+                        }
                         echo "</div>";
                         echo "<div class='post_right'>";
                         echo "<p>$comments[$key] comments</p>";

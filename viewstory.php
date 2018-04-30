@@ -26,6 +26,13 @@
     {
         $username = $_SESSION['username'];
     }
+    $is_author = false;
+    if(isset($_SESSION['user_id'])) {
+        if ($_SESSION['user_id'] == $author_id) {
+            $is_author=true;
+        }
+    }
+
 
     $story_title = 'Story Title';
     $chapter_text = '';
@@ -56,17 +63,21 @@
         }
         if (isset($_POST['update_chapter'])) {
 
-            updateChapter($servername, $db_user, $db_pwd, $db_name, $chapter_number, $_POST['chaptertext'], $story_id);
+            updateStoryChapter($servername, $db_user, $db_pwd, $db_name, $_POST['title'], $_POST['description'], $chapter_number, $_POST['chaptertext'], $story_id);
 
         }
     }
 
-    function updateChapter(&$servername, &$db_user, &$db_pwd, &$db_name, &$chapter_number, &$chapter_text, &$story_id) {
+    //Updates story and chapter based on new information
+    function updateStoryChapter(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_title, &$story_descr, &$chapter_number, &$chapter_text, &$story_id) {
         try {
             //Insert story information into database
              //$conn = new mysqli($SERVER, $USERNAME, $PASSWORD, $DATABASE);
             $conn = new PDO("mysql:host=$servername;dbname=$db_name", $db_user, $db_pwd);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $st=$conn->prepare("UPDATE stories SET `story_title` = ?, `story_description` = ? WHERE `story_id`=?");
+            $st->execute(array($story_title, $story_descr, $story_id));
 
             $st=$conn->prepare("UPDATE chapters SET `chapter_text` = ? WHERE `chapter_number`=? AND `story_id`=?");
             $st->execute(array($chapter_text, $chapter_number, $story_id));
@@ -145,8 +156,10 @@
 
 
     <section class="new_post">
-        <h3><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h3>
-            <input type="text" readonly id="description" value="<?php echo $story_descr?>" /> <br />
+        <h3 ng-show="!edit"><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h3>
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <input type="text" ng-show="edit" name="title" value="<?php echo $story_title?>" /> <br />
+            <input type="text" ng-readonly="!edit" name="description" value="<?php echo $story_descr?>" /> <br />
             <br />
             <select id="selectChapter" onchange="if (this.value) window.location.href='http://localhost/StoryShare/viewstory.php?story_id=<?php echo $story_id;?>&chapter_number='+this.value">
                  <?php
@@ -162,15 +175,17 @@
        		    document.getElementById('selectChapter').value = <?php echo $chapter_number ?>;
              </script>
             <?php
-                if ($_SESSION['user_id'] == $author_id) {
-                    echo 'Edit chapter: <input type="checkbox" ng-model="edit">';
+                if(isset($_SESSION['user_id'])) {
+                    if ($_SESSION['user_id'] == $author_id) {
+                        echo 'Edit: <input type="checkbox" ng-model="edit">';
+                    }
                 }
             ?>
-            <br />
 
-             <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                <input ng-show="edit" type='submit' name='update_chapter' value="Update Chapter" onclick='' />
-                </br>
+
+
+                <input ng-show="edit" type='submit' name='update_chapter' value="Update" onclick='' />
+                <br />
             ​   <textarea ng-readonly="!edit" [ng-minlength=1] rows="40" name="chaptertext"> <?php echo "$chapter_text"; ?> </textarea>
                 <input type="hidden" name="chapter_number" value="<?php echo $chapter_number;?>">
                 <input type="hidden" name="story_id" value="<?php echo $story_id;?>">
