@@ -300,9 +300,11 @@
 
                     echo "<h3>New Story</h3>";
                     echo "<div style='margin-bottom: 22px'>";
+                    echo "<div class = 'col'>";
                     echo "<form action='http://localhost/StoryShare/createstory.html' method='post'>";
                     echo "<input type='submit' name='create' value='Create' onclick='' />";
                     echo "</form>";
+                    echo "</div>";
                     echo "</div>";
                 }
              ?>

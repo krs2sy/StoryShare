@@ -13,11 +13,11 @@
     {
         $story_id = $_GET['story_id'];
     }
-    if (isset($_GET['story_title']))
+    if (isset($_GET['title']))
     {
-        $story_title = $_GET['story_title'];
+        $story_title = $_GET['title'];
     }
-    function getNumChapters(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$num_chapters) {
+    function getNumChapters(&$servername, &$db_user, &$db_pwd, &$db_name, &$story_id, &$story_title, &$num_chapters) {
         // Create connection
         $conn = new mysqli($servername, $db_user, $db_pwd, $db_name);
 
@@ -25,15 +25,30 @@
             die("Connection failed: " . $conn->connect_error);
 
         }
+
+        //Counting number of chapters in the story
         $sql = "SELECT count(1) FROM chapters WHERE story_id = " . $story_id;
         $result = $conn->query($sql);
         $row = $result->fetch_array();
 
         $num_chapters = $row[0];
 
+        //Getting the story title
+        $sql = "SELECT `story_title` FROM stories WHERE story_id = " . $story_id;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $story_title = $row["story_title"];
+                break;
+            }
+
+        }
+
         $conn->close();
     }
-    getNumChapters($servername, $db_user, $db_pwd, $db_name, $story_id, $num_chapters);
+    getNumChapters($servername, $db_user, $db_pwd, $db_name, $story_id, $story_title, $num_chapters);
 ?>
 
 <!DOCTYPE html>
@@ -56,11 +71,13 @@
     <title>Story Share</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 </head>
-<body ng-app="storyshareApp" ng-init= "story = { story_id: <?php echo $story_id; ?>, title: <?php echo $story_id; ?>}; chapter = { number: <?php echo $num_chapters+1; ?>, text:''}; msgs={text_msg :''};">
+<body ng-app="storyshareApp" ng-init= "story = { story_id: <?php echo $story_id; ?>, title: '<?php echo $story_title; ?>'}; chapter = { number: <?php echo $num_chapters+1; ?>, text:''}; msgs={text_msg :''};">
 
     <script src='navbar.php' type='text/javascript'></script>
+    <section class="row">
+    <div class="grid">
 
-    <h3>New Chapter for {{ story.title }}</h3>
+    <h3>New Chapter for <i>{{ story.title }}</i></h3>
 
     <div ng-controller="ChapterController" class="new_post">
        <br />
@@ -73,8 +90,7 @@
           >
 
       </textarea>
-      {{msgs.text_msg}}<br />
-      {{data}}
+      <p style='color:red';>{{msgs.text_msg}}</p>
 
        <!-- let's add a button to clear the username variable -->
        <button ng-click="submit()">Create Chapter</button>
@@ -88,7 +104,7 @@
 
 
             var onChapterSuccess = function (data, status, headers, config) {
-                $window.location.href = 'http://localhost/StoryShare/viewstory.php?story_id=' + $scope.story.story_id + '&chapter_number=' + $scope.chapter.number;
+                $window.location.href = 'http://localhost/StoryShare/viewstory.php?story_id=' + $scope.story.story_id + '&chapter_number=' + $scope.chapter.number + '&msg=You have successfully created a new chapter.';
 
             };
 
@@ -150,7 +166,8 @@
 
 
     </script>
-
+    </div>
+    </section>
     <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -12,6 +12,7 @@
     $story_descr = '';
     $chapter_number = 1;
     $num_chapters = 1;
+    $msg = '';
 
     if (isset($_GET['story_id']))
     {
@@ -26,6 +27,17 @@
     {
         $username = $_SESSION['username'];
     }
+
+    if (isset($_GET['msg']))
+    {
+        $msg = $_GET['msg'];
+    }
+
+    if (isset($_POST['msg']))
+    {
+        $msg = $_POST['msg'];
+    }
+
     $is_author = false;
     if(isset($_SESSION['user_id'])) {
         if ($_SESSION['user_id'] == $author_id) {
@@ -153,10 +165,17 @@
   </head>
 <body ng-app ng-init="edit=false">
     <script src='navbar.php' type='text/javascript'></script>
+    <section class="row">
+    <div class="grid">
 
 
+        <h2 ng-show="!edit"><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h2>
     <section class="new_post">
-        <h3 ng-show="!edit"><?php echo "<i>$story_title</i> by <a href='profile.php?prof_id=$author_id'>$author_username</a></label>"; ?></h3>
+        <?php
+        if ($msg !== '') {
+            echo "<p style='color:green';> $msg </p>";
+        }
+        ?>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
             <input type="text" ng-show="edit" name="title" value="<?php echo $story_title?>" /> <br />
             <input type="text" ng-readonly="!edit" name="description" value="<?php echo $story_descr?>" /> <br />
@@ -178,17 +197,18 @@
                 if(isset($_SESSION['user_id'])) {
                     if ($_SESSION['user_id'] == $author_id) {
                         echo 'Edit: <input type="checkbox" ng-model="edit">';
+                        echo "<div class='post_right'>";
+                        echo "<a href='createchapter.php?story_id=$story_id'>Add Chapter</a>";
+                        echo "</div>";
+
                     }
                 }
             ?>
 
-
-
                 <input ng-show="edit" type='submit' name='update_chapter' value="Update" onclick='' />
                 <br />
             ​   <textarea ng-readonly="!edit" [ng-minlength=1] rows="40" name="chaptertext"> <?php echo "$chapter_text"; ?> </textarea>
-                <input type="hidden" name="chapter_number" value="<?php echo $chapter_number;?>">
-                <input type="hidden" name="story_id" value="<?php echo $story_id;?>">
+                <input type="hidden" name="msg" value="You have successfully updated the story and chapter.">
              </form>
             </br>
             </br>
@@ -234,6 +254,8 @@
 
     </section>
 
+    </div>
+    </section>
     <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

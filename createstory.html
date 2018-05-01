@@ -22,13 +22,15 @@
 
     <script src='navbar.php' type='text/javascript'></script>
 
+    <section class="row">
+    <div class="grid">
+
     <h3>New Story</h3>
     <div ng-controller="StoryController" class="new_post">
        Title: <input type="text" ng-model="story.title" id="title" />
-       {{msgs.title_msg}}<br />
+       <p style='color:red';>{{msgs.title_msg}}</p>
        Description: <input type="text" ng-model="story.description" id="description" />
-       {{msgs.descr_msg}}<br />
-       <br />
+        <p style='color:red';>{{msgs.descr_msg}}</p>
        <h3>Chapter {{ chapter.number }}</h3>
        <textarea
           ng-model="chapter.text"
@@ -38,10 +40,7 @@
           >
 
       </textarea>
-      {{msgs.text_msg}}<br />
-
-      {{story.date_created}}
-      {{data}}
+       <p style='color:red';>{{msgs.text_msg}}</p>
 
        <!-- let's add a button to clear the username variable -->
        <button ng-click="submit()">Create Story</button>
@@ -65,7 +64,7 @@
             };
 
              var onChapterSuccess = function (data, status, headers, config) {
-                $window.location.href = 'http://localhost/StoryShare/viewstory.php?story_id=' + $scope.story.story_id + '&chapter_number=' + $scope.chapter.number;
+                $window.location.href = 'http://localhost/StoryShare/viewstory.php?story_id=' + $scope.story.story_id + '&chapter_number=' + $scope.chapter.number + '&msg=You have successfully created a new story.';
 
             };
 
@@ -141,7 +140,8 @@
 
 
     </script>
-
+    </div>
+    </section>
     <script src="footer.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

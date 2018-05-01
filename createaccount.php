@@ -18,21 +18,25 @@
 </head>
 <body>
 	<script src='http://localhost/StoryShare/navbar.php' type='text/javascript'></script>
+	<section class="row">
+    <div class="grid">
+
 	<h2>Create Account</h2>
+
+	<section class='new_post'>
 	<?php
         if ($msg != null) {
-            echo "$msg <br/>";
+            echo "<p style='color:red';>$msg </p>";
         }
     ?>
-	<section class='new_post'>
 		<form action='http://localhost:8080/StoryShare_Servlet/CreateAccount.jsp' method='post'>
 	      <table>
 	        <tr>
-	          <td>Username: </td>
+	          <td>Username*: </td>
 	          <td><input type="text" name="servlet_username" ></td>
 	        </tr>
 	        <tr>
-	          <td>Password: </td>
+	          <td>Password*: </td>
 	          <td><input type="password" name="servlet_password" /></td>
 	        </tr>
 	        <tr>
@@ -65,6 +69,7 @@
 	   </form>
 	</section>
 	<hr />
-
+    </div>
+    </section>
 	<script src='http://localhost/StoryShare/footer.js'></script>
 </body>

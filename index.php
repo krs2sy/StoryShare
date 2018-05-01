@@ -142,41 +142,43 @@
   </head>
 <body>
     <script src='navbar.php' type='text/javascript'></script>
+    <section class="row">
+    <div class="grid">
+     <h2>Stories</h2>
 
- <h2>Stories</h2>
-  
-    <?php //echo "$username"?>
+        <?php //echo "$username"?>
 
-   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!<script src="js/bootstrap.min.js"></script> -->
+       <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!<script src="js/bootstrap.min.js"></script> -->
 
- <section class="listed stories new_post">
-  <label style="color: blue; font-size: 12px"><b>Filters</b></label>
-    </br>
-    </br>
-    </br>
-             <?php
-                 for($key = count($titles) - 1; $key >= 0; $key--) {
-                    echo "<div class='group'>";
-                    echo "<div class='post_left'>";
-                    $prof_url = 'profile.php?prof_id=' . $user_ids[$key];
-                    echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php?story_id=$story_ids[$key]&chapter_number=1'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href=" . $prof_url .">$authors[$key]</a></label>";
-                    echo "<p style='font-size: 12px'>$descrs[$key]</p>";
-                    echo "</div>";
-                    echo "<div class='post_right'>";
-                    echo "<p>Updated: $dates[$key]</p>";
-                    echo "</div>";
-                    echo "</div>";
-                 }
-             ?>
+     <section class="listed stories new_post">
+      <label style="color: blue; font-size: 12px"><b>Filters</b></label>
+        </br>
+        </br>
+        </br>
+                 <?php
+                     for($key = count($titles) - 1; $key >= 0; $key--) {
+                        echo "<div class='group'>";
+                        echo "<div class='post_left'>";
+                        $prof_url = 'profile.php?prof_id=' . $user_ids[$key];
+                        echo "<label style='color: blue; font-size: 18px'><i><a href='viewstory.php?story_id=$story_ids[$key]&chapter_number=1'>$titles[$key]</a></i></label> by <label style='color: blue; font-size: 18px'><a href=" . $prof_url .">$authors[$key]</a></label>";
+                        echo "<p style='font-size: 12px'>$descrs[$key]</p>";
+                        echo "</div>";
+                        echo "<div class='post_right'>";
+                        echo "<p>Updated: $dates[$key]</p>";
+                        echo "</div>";
+                        echo "</div>";
+                     }
+                 ?>
+                </section>
             </section>
+
+
+          </div>
         </section>
-
-
-      </div>
+        <script src="footer.js"></script>
+    <div>
     </section>
-    <script src="footer.js"></script>
-
-</body>
+    </body>
 </html>
