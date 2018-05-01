@@ -12,7 +12,9 @@ $data = json_decode($post_data);
 $story_title = $data->storytitle;
 $story_descr = $data->storydescr;
 $story_date = $data->storydate;
+
 $user_id = 0;
+session_start();
 if (isset($_SESSION['user_id']))
 {
     $user_id = $_SESSION['user_id'];

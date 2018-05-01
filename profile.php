@@ -137,8 +137,6 @@
                 break;
             }
 
-        } else {
-            echo "0 results";
         }
 
         $conn->close();
@@ -170,8 +168,6 @@
                 //echo $row["username"];
             }
             //print_r($authors);
-        } else {
-            echo "0 results";
         }
 
         $conn->close();
